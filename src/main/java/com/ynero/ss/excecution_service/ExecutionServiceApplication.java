@@ -1,13 +1,13 @@
-package com.example.ExcecutionService;
+package com.ynero.ss.excecution_service;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ExcecutionServiceApplication {
+public class ExecutionServiceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ExcecutionServiceApplication.class, args);
+		SpringApplication.run(ExecutionServiceApplication.class, args);
 	}
 
 }

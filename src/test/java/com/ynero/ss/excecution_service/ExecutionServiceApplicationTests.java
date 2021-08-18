@@ -1,10 +1,10 @@
-package com.example.ExcecutionService;
+package com.ynero.ss.excecution_service;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class ExcecutionServiceApplicationTests {
+class ExecutionServiceApplicationTests {
 
 	@Test
 	void contextLoads() {
