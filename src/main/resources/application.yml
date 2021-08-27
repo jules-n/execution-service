@@ -1,0 +1,11 @@
+spring:
+  data:
+    mongodb:
+      uri: ${URI:mongodb://localhost:27017}
+      database: ${DATABASE:execution-service}
+server:
+  port: ${PORT:9098}
+
+grpc:
+  server:
+    port: ${GRPC_SERVER_PORT:9099}
