@@ -1,12 +1,20 @@
 plugins {
 	id 'org.springframework.boot' version '2.5.3'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'com.coditory.integration-test' version '1.2.3'
 	id 'java'
+	id "com.google.protobuf" version "0.8.17"
 }
 
-group = 'com.example'
+group = 'com.ynero.ss'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
+targetCompatibility = '11'
+
+repositories {
+	mavenCentral()
+	mavenLocal()
+}
 
 configurations {
 	compileOnly {
@@ -16,6 +24,7 @@ configurations {
 
 repositories {
 	mavenCentral()
+	mavenLocal()
 }
 
 dependencies {
@@ -23,10 +32,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 
-	//pub/sub
+	implementation "com.jules.ss:proto-files:${project['com.jules.ss.proto-files.version']}"
 
-	implementation 'org.springframework.cloud:spring-cloud-gcp-starter-pubsub:1.2.5.RELEASE'
-	implementation 'org.springframework.integration:spring-integration-core'
 
 	//gRPC
 
@@ -34,6 +41,8 @@ dependencies {
 	implementation 'io.grpc:grpc-protobuf:1.39.0'
 	implementation 'io.grpc:grpc-stub:1.39.0'
 	implementation 'io.grpc:grpc-netty:1.39.0'
+	protobuf "com.jules.ss:proto-files:${project['com.jules.ss.proto-files.version']}"
+	implementation 'com.google.protobuf:protobuf-lite:3.0.0'
 
 	//lombok
 
@@ -45,4 +54,20 @@ dependencies {
 
 test {
 	useJUnitPlatform()
+}
+
+protobuf {
+	protoc {
+		artifact = "com.google.protobuf:protoc:3.2.0"
+	}
+	plugins {
+		grpc {
+			artifact = 'io.grpc:protoc-gen-grpc-java:1.4.0'
+		}
+	}
+	generateProtoTasks {
+		all()*.plugins {
+			grpc {}
+		}
+	}
 }
