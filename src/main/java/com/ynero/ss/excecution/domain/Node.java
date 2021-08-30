@@ -9,4 +9,6 @@ public class Node {
     public static final String COLLECTION_NAME = "nodes";
     @Indexed(unique = true)
     private UUID nodeId;
+    private String script;
+    private String mainMethodName;
 }
