@@ -10,5 +10,6 @@ public class Node {
     @Indexed(unique = true)
     private UUID nodeId;
     private String script;
+    private byte[] compiledScript;
     private String mainMethodName;
 }
