@@ -28,15 +28,24 @@ repositories {
 }
 
 dependencies {
+
+	//mongo
 	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+
+	//spring
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 
-	implementation "com.jules.ss:proto-files:${project['com.jules.ss.proto-files.version']}"
+	//shared
+	implementation 'com.jules.ss:common-dtos:1.0.4'
+	implementation 'com.jules.ss:converters:1.0.1'
 
+	//pub-sub
+	implementation platform('com.google.cloud:libraries-bom:20.9.0')
+	implementation 'com.google.cloud:google-cloud-pubsub'
 
 	//gRPC
-
+	implementation "com.jules.ss:proto-files:${project['com.jules.ss.proto-files.version']}"
 	implementation 'io.grpc:grpc-core:1.39.0'
 	implementation 'io.grpc:grpc-protobuf:1.39.0'
 	implementation 'io.grpc:grpc-stub:1.39.0'
