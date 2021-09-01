@@ -7,7 +7,9 @@ spring:
     stream:
       bindings:
         output:
-          destination: ${TOPIC:device-pipeline}
+          destination:
+             add: ${TOPIC_ON_ADD:device-pipeline-add}
+             drop: ${TOPIC_ON_DROP:device-pipeline-drop}
     gcp:
       project-id: ${PROJECT_ID:single-system}
 server:

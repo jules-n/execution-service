@@ -1,9 +1,9 @@
 plugins {
-	id 'org.springframework.boot' version '2.5.3'
-	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-	id 'com.coditory.integration-test' version '1.2.3'
-	id 'java'
-	id "com.google.protobuf" version "0.8.17"
+    id 'org.springframework.boot' version '2.5.3'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'com.coditory.integration-test' version '1.2.3'
+    id 'java'
+    id "com.google.protobuf" version "0.8.17"
 }
 
 group = 'com.ynero.ss'
@@ -12,71 +12,73 @@ sourceCompatibility = '11'
 targetCompatibility = '11'
 
 repositories {
-	mavenCentral()
-	mavenLocal()
+    mavenCentral()
+    mavenLocal()
 }
 
 configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
-	}
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
 }
 
 repositories {
-	mavenCentral()
-	mavenLocal()
+    mavenCentral()
+    mavenLocal()
 }
 
 dependencies {
 
-	//mongo
-	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+    //mongo
+    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
 
-	//spring
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    //model-mapper
+    implementation group: 'org.modelmapper', name: 'modelmapper', version: '0.7.5'
 
-	//shared
-	implementation 'com.jules.ss:common-dtos:1.0.4'
-	implementation 'com.jules.ss:converters:1.0.1'
+    //spring
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
 
-	//pub-sub
-	implementation platform('com.google.cloud:libraries-bom:20.9.0')
-	implementation 'com.google.cloud:google-cloud-pubsub'
+    //shared
+    implementation 'com.jules.ss:common-dtos:1.0.5'
+    implementation 'com.jules.ss:converters:1.0.1'
 
-	//gRPC
-	implementation "com.jules.ss:proto-files:${project['com.jules.ss.proto-files.version']}"
-	implementation 'io.grpc:grpc-core:1.39.0'
-	implementation 'io.grpc:grpc-protobuf:1.39.0'
-	implementation 'io.grpc:grpc-stub:1.39.0'
-	implementation 'io.grpc:grpc-netty:1.39.0'
-	protobuf "com.jules.ss:proto-files:${project['com.jules.ss.proto-files.version']}"
-	implementation 'com.google.protobuf:protobuf-lite:3.0.0'
+    //pub-sub
+    implementation platform('com.google.cloud:libraries-bom:20.9.0')
+    implementation 'com.google.cloud:google-cloud-pubsub'
 
-	//lombok
+    //gRPC
+    implementation "com.jules.ss:proto-files:${project['com.jules.ss.proto-files.version']}"
+    implementation 'io.grpc:grpc-core:1.39.0'
+    implementation 'io.grpc:grpc-protobuf:1.39.0'
+    implementation 'io.grpc:grpc-stub:1.39.0'
+    implementation 'io.grpc:grpc-netty:1.39.0'
+    protobuf "com.jules.ss:proto-files:${project['com.jules.ss.proto-files.version']}"
 
-	compileOnly 'org.projectlombok:lombok'
-	annotationProcessor 'org.projectlombok:lombok'
+    //lombok
 
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
 test {
-	useJUnitPlatform()
+    useJUnitPlatform()
 }
 
 protobuf {
-	protoc {
-		artifact = "com.google.protobuf:protoc:3.2.0"
-	}
-	plugins {
-		grpc {
-			artifact = 'io.grpc:protoc-gen-grpc-java:1.4.0'
-		}
-	}
-	generateProtoTasks {
-		all()*.plugins {
-			grpc {}
-		}
-	}
+    protoc {
+        artifact = "com.google.protobuf:protoc:3.2.0"
+    }
+    plugins {
+        grpc {
+            artifact = 'io.grpc:protoc-gen-grpc-java:1.4.0'
+        }
+    }
+    generateProtoTasks {
+        all()*.plugins {
+            grpc {}
+        }
+    }
 }

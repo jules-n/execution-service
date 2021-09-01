@@ -20,18 +20,17 @@ import java.util.concurrent.TimeUnit;
 @Log4j2
 public class PipelinePubSubSender {
 
-    @Setter(onMethod_ = {@Value("${spring.cloud.stream.bindings.output.destination}")})
-    private String topic;
+    @Setter(onMethod_ = {@Value("${spring.cloud.stream.bindings.output.destination.add}")})
+    private String topicOnAdd;
+
+    @Setter(onMethod_ = {@Value("${spring.cloud.stream.bindings.output.destination.drop}")})
+    private String topicOnDrop;
 
     @Setter(onMethod_ = {@Value("${spring.cloud.gcp.project-id}")})
     private String projectId;
 
-    @Setter(onMethod_ = {@Autowired})
-    private DTOToMessageJSONConverter converter;
-
-    public boolean send(PipelineDevicesDTO dto) {
+    public boolean send(String message, String projectId, String topic) {
         TopicName topicName = TopicName.of(projectId, topic);
-        var message = converter.serialize(dto);
 
         try (Publisher publisher = new Publisher(topicName)){
             ByteString data = ByteString.copyFromUtf8(message);
