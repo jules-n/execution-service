@@ -1,6 +1,5 @@
 package com.ynero.ss.excecution.services.receivers.ds;
 
-import com.ynero.ss.excecution.services.receivers.ds.PipelineReceiver;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import lombok.Setter;
@@ -9,6 +8,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class PipelineServerReceiver {
@@ -16,13 +17,20 @@ public class PipelineServerReceiver {
     @Setter(onMethod_ = {@Value("${grpc.server.port}")})
     private int grpcServerPort;
 
+    private Server server;
+
     @SneakyThrows
     @PostConstruct
     public void startServer(){
-        Server server = ServerBuilder.forPort(grpcServerPort)
+        server = ServerBuilder.forPort(grpcServerPort)
                 .addService(new PipelineReceiver())
                 .build();
         server.start();
-        server.awaitTermination();
+    }
+
+    @SneakyThrows
+    @PreDestroy
+    public void awaitTermination(){
+        server.awaitTermination(10, TimeUnit.SECONDS);
     }
 }
