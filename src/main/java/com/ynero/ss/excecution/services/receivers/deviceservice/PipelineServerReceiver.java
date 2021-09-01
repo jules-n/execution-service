@@ -1,4 +1,4 @@
-package com.ynero.ss.excecution.services.receivers.ds;
+package com.ynero.ss.excecution.services.receivers.deviceservice;
 
 import io.grpc.Server;
 import io.grpc.ServerBuilder;

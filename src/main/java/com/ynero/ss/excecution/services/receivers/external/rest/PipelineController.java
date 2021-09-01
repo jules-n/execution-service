@@ -3,6 +3,7 @@ package com.ynero.ss.excecution.services.receivers.external.rest;
 import com.ynero.ss.excecution.domain.Pipeline;
 import com.ynero.ss.excecution.domain.dto.PipelineDTO;
 import com.ynero.ss.excecution.persistence.PipelineRepository;
+import com.ynero.ss.excecution.services.bl.PipelineService;
 import com.ynero.ss.excecution.services.senders.PubSubSender;
 import dtos.PipelineDevicesDTO;
 import dtos.PipelineIdDTO;
@@ -22,75 +23,36 @@ import java.util.UUID;
 public class PipelineController {
 
     @Setter(onMethod_ = {@Autowired})
-    private PubSubSender pubSubSender;
-
-    @Setter(onMethod_ = {@Autowired})
-    private PipelineRepository pipelineRepository;
-
-    @Setter(onMethod_ = {@Autowired})
-    private ModelMapper modelMapper;
-
-    @Setter(onMethod_ = {@Value("${spring.cloud.stream.bindings.output.destination.add}")})
-    private String topicOnAdd;
-
-    @Setter(onMethod_ = {@Value("${spring.cloud.stream.bindings.output.destination.drop}")})
-    private String topicOnDrop;
-
-    @Setter(onMethod_ = {@Value("${spring.cloud.gcp.project-id}")})
-    private String projectId;
-
-    @Setter(onMethod_ = {@Autowired})
-    private DTOToMessageJSONConverter converter;
+    private PipelineService pipelineService;
 
     @PostMapping("/add/to/port")
     private ResponseEntity addPipelineToPort(@RequestBody PipelineDevicesDTO dto) {
-        var message = converter.serialize(dto);
-        if (pubSubSender.send(message, projectId, topicOnAdd)) {
-            return ResponseEntity.ok().build();
-        }
-        return ResponseEntity.badRequest().build();
+        var result = pipelineService.addPipelineToPort(dto);
+        return result ? ResponseEntity.ok().build() : ResponseEntity.badRequest().build();
     }
 
     @PostMapping
     private ResponseEntity<String> create(@RequestBody PipelineDTO dto) {
-        var pipeline = modelMapper.map(dto, Pipeline.class);
-        pipeline.setPipelineId(UUID.randomUUID());
-        pipeline = pipelineRepository.save(pipeline);
-        return new ResponseEntity<String>(pipeline.getPipelineId().toString(), HttpStatus.OK);
+        var result = pipelineService.create(dto);
+        return new ResponseEntity<String>(result, HttpStatus.OK);
     }
 
     @DeleteMapping
     private ResponseEntity delete(@RequestParam String pipelineId) {
-        var id = UUID.fromString(pipelineId);
-        var dto = new PipelineIdDTO(id);
-        var message = converter.serialize(dto);
-        var pipelineWasDeleted = pipelineRepository.delete(id);
-        if (pipelineWasDeleted) {
-            if (pubSubSender.send(message, projectId, topicOnDrop)) {
-                return ResponseEntity.ok().build();
-            }
-        }
-        return ResponseEntity.badRequest().build();
+        var result = pipelineService.delete(pipelineId);
+        return result ? ResponseEntity.ok().build() : ResponseEntity.badRequest().build();
     }
 
     @GetMapping
     private ResponseEntity<Pipeline> find(@RequestParam String pipelineId) {
-        var pipeline = pipelineRepository.findByPipelineId(UUID.fromString(pipelineId));
-        if (!pipeline.isEmpty()) {
-            return ResponseEntity.ok(pipeline.get());
-        }
-        return ResponseEntity.badRequest().build();
+        var pipeline = pipelineService.find(pipelineId);
+        return pipeline.isEmpty()?ResponseEntity.badRequest().build():ResponseEntity.ok(pipeline.get());
     }
 
     @PutMapping
     private ResponseEntity update(@RequestBody PipelineDTO dto, @RequestParam String pipelineId) {
-        var pipeline = modelMapper.map(dto, Pipeline.class);
-        pipeline.setPipelineId(UUID.fromString(pipelineId));
-        var result = pipelineRepository.update(pipeline);
-        if (result) {
-            return ResponseEntity.ok().build();
-        }
-        return ResponseEntity.badRequest().build();
+        var result = pipelineService.update(dto, pipelineId);
+        return result ? ResponseEntity.ok().build() : ResponseEntity.badRequest().build();
     }
 
 }
