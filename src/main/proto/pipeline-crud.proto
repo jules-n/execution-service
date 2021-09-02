@@ -1,0 +1,71 @@
+syntax = "proto3";
+package com.ynero.ss.pipeline.dto.proto;
+
+message EdgeDTO {
+  string nodeIdi = 1;
+  string nodeIdj = 2;
+}
+
+message NodeDTO {
+  string script = 1;
+  repeated string args = 2;
+}
+
+message NodeGetDTO {
+  string nodeId = 1;
+  string script = 2;
+  repeated string args = 3;
+}
+
+message PipelineDTO {
+  string tenantId = 1;
+  repeated EdgeDTO edges = 2;
+}
+
+message PipelineGetDTO {
+  string pipelineId = 1;
+  string tenantId = 2;
+  repeated EdgeDTO edges = 3;
+}
+message PipelineDevicesDTO {
+  string pipelineId = 1;
+  string deviceIds = 2;
+  string portName = 3;
+}
+
+message PipelineId {
+  string pipelineId = 1;
+}
+
+message NodeId {
+  string nodeId = 1;
+}
+
+message Response {
+  int32 status = 1;
+  string result = 2;
+}
+message PipelineUpdateDTO {
+  PipelineDTO pipelineDto = 1;
+  string pipelineId = 2;
+}
+
+message NodeUpdateDTO {
+  NodeDTO nodeDTO = 1;
+  string nodeId = 2;
+}
+
+service PipelineCRUDService {
+  rpc find(PipelineId) returns (PipelineGetDTO) {}
+  rpc delete(PipelineId) returns (Response) {}
+  rpc addPipelineToPort(PipelineDevicesDTO) returns (Response) {}
+  rpc create(PipelineDTO) returns (Response) {}
+  rpc update(PipelineUpdateDTO) returns (Response) {}
+}
+
+service NodeCRUDService {
+  rpc find(NodeId) returns (NodeGetDTO) {}
+  rpc delete(NodeId) returns (Response) {}
+  rpc create(NodeDTO) returns (Response) {}
+  rpc update(NodeUpdateDTO) returns (Response) {}
+}

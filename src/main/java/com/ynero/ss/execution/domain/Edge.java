@@ -1,4 +1,4 @@
-package com.ynero.ss.excecution.domain;
+package com.ynero.ss.execution.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

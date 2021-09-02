@@ -1,4 +1,4 @@
-package com.ynero.ss.excecution.services.receiver;
+package com.ynero.ss.execution.services.receivers.deviceservice;
 import com.google.protobuf.Empty;
 import com.ynero.ss.pipeline.grpc.PipelineQueryReceiverServiceGrpc;
 import lombok.extern.log4j.Log4j2;

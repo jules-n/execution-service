@@ -1,4 +1,4 @@
-package com.ynero.ss.excecution;
+package com.ynero.ss.execution;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
