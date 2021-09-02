@@ -19,4 +19,7 @@ grpc:
   server:
     port: ${GRPC_SERVER_PORT:9099}
 
+mongock:
+  change-logs-scan-package:
+    - com.ynero.ss.execution.migration
 
