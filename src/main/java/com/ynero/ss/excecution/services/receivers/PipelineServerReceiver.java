@@ -1,6 +1,7 @@
 package com.ynero.ss.excecution.services.receivers;
 
 import com.ynero.ss.excecution.services.receivers.deviceservice.PipelineReceiver;
+import com.ynero.ss.excecution.services.receivers.external.gRPC.PipelineCRUDReceiver;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import lombok.Setter;
@@ -25,6 +26,7 @@ public class PipelineServerReceiver {
     public void startServer(){
         server = ServerBuilder.forPort(grpcServerPort)
                 .addService(new PipelineReceiver())
+                .addService(new PipelineCRUDReceiver())
                 .build();
         server.start();
     }
