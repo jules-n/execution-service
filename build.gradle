@@ -58,6 +58,9 @@ dependencies {
     implementation 'io.grpc:grpc-netty:1.39.0'
     protobuf "com.jules.ss:proto-files:${project['com.jules.ss.proto-files.version']}"
 
+    // groovy
+    implementation 'org.codehaus.groovy:groovy-all:3.0.8'
+
     //lombok
 
     compileOnly 'org.projectlombok:lombok'
