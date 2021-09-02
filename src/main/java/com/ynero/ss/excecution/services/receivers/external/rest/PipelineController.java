@@ -2,6 +2,7 @@ package com.ynero.ss.excecution.services.receivers.external.rest;
 
 import com.ynero.ss.excecution.domain.Pipeline;
 import com.ynero.ss.excecution.domain.dto.PipelineDTO;
+import com.ynero.ss.excecution.domain.dto.PipelineGetDTO;
 import com.ynero.ss.excecution.persistence.PipelineRepository;
 import com.ynero.ss.excecution.services.bl.PipelineService;
 import com.ynero.ss.excecution.services.senders.PubSubSender;
@@ -44,9 +45,9 @@ public class PipelineController {
     }
 
     @GetMapping
-    private ResponseEntity<Pipeline> find(@RequestParam String pipelineId) {
+    private ResponseEntity<PipelineGetDTO> find(@RequestParam String pipelineId) {
         var pipeline = pipelineService.find(pipelineId);
-        return pipeline.isEmpty()?ResponseEntity.badRequest().build():ResponseEntity.ok(pipeline.get());
+        return pipeline==null?ResponseEntity.badRequest().build():ResponseEntity.ok(pipeline);
     }
 
     @PutMapping

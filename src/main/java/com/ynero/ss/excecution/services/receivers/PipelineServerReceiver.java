@@ -1,5 +1,6 @@
-package com.ynero.ss.excecution.services.receivers.deviceservice;
+package com.ynero.ss.excecution.services.receivers;
 
+import com.ynero.ss.excecution.services.receivers.deviceservice.PipelineReceiver;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import lombok.Setter;

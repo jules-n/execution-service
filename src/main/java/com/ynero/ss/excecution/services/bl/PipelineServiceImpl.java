@@ -2,6 +2,7 @@ package com.ynero.ss.excecution.services.bl;
 
 import com.ynero.ss.excecution.domain.Pipeline;
 import com.ynero.ss.excecution.domain.dto.PipelineDTO;
+import com.ynero.ss.excecution.domain.dto.PipelineGetDTO;
 import com.ynero.ss.excecution.persistence.PipelineRepository;
 import com.ynero.ss.excecution.services.senders.PubSubSender;
 import dtos.PipelineDevicesDTO;
@@ -41,10 +42,14 @@ public class PipelineServiceImpl implements PipelineService {
     private DTOToMessageJSONConverter converter;
 
     @Override
-    public Optional<Pipeline> find(String pipelineId) {
+    public PipelineGetDTO find(String pipelineId) {
         var id = UUID.fromString(pipelineId);
         var pipeline = pipelineRepository.findByPipelineId(id);
-        return pipeline;
+        if(!pipeline.isEmpty()){
+          var dto = modelMapper.map(pipeline.get(), PipelineGetDTO.class);
+          return dto;
+        }
+        return null;
     }
 
     @Override

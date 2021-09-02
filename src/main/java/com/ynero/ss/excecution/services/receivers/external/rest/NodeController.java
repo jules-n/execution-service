@@ -2,6 +2,7 @@ package com.ynero.ss.excecution.services.receivers.external.rest;
 
 import com.ynero.ss.excecution.domain.Node;
 import com.ynero.ss.excecution.domain.dto.NodeDTO;
+import com.ynero.ss.excecution.domain.dto.NodeGetDTO;
 import com.ynero.ss.excecution.services.bl.NodeService;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,10 +30,10 @@ public class NodeController {
     }
 
     @GetMapping
-    private ResponseEntity<Node> find(@RequestParam String nodeId) {
+    private ResponseEntity<NodeGetDTO> find(@RequestParam String nodeId) {
         var node = nodeService.findById(nodeId);
-        return node.isEmpty() ? ResponseEntity.badRequest().build() :
-                ResponseEntity.ok(node.get());
+        return node==null ? ResponseEntity.badRequest().build() :
+                ResponseEntity.ok(node);
     }
 
     @PutMapping

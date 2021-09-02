@@ -1,8 +1,12 @@
 package com.ynero.ss.excecution.config;
 
 import com.ynero.ss.excecution.domain.Edge;
+import com.ynero.ss.excecution.domain.Node;
 import com.ynero.ss.excecution.domain.Pipeline;
+import com.ynero.ss.excecution.domain.dto.EdgeDTO;
+import com.ynero.ss.excecution.domain.dto.NodeGetDTO;
 import com.ynero.ss.excecution.domain.dto.PipelineDTO;
+import com.ynero.ss.excecution.domain.dto.PipelineGetDTO;
 import org.modelmapper.AbstractConverter;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
@@ -19,8 +23,22 @@ public class ModelMapperConfig {
     public ModelMapper modelMapper() {
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.addConverter(dtoPipelineConverter);
+        modelMapper.addConverter(pipelineToPipelineGetDTOConverter);
+        modelMapper.addConverter(nodeToNodeGetDTOConverter);
         return modelMapper;
     }
+
+    private Converter<Node, NodeGetDTO> nodeToNodeGetDTOConverter = new AbstractConverter<>() {
+        protected NodeGetDTO convert(Node node) {
+
+            var dto = NodeGetDTO.builder()
+                    .nodeId(node.getNodeId().toString())
+                    .script(node.getScript())
+                    .args(node.getArgs())
+                    .build();
+            return dto;
+        }
+    };
 
     private Converter<PipelineDTO, Pipeline> dtoPipelineConverter = new AbstractConverter<>() {
         protected Pipeline convert(PipelineDTO dto) {
@@ -41,6 +59,28 @@ public class ModelMapperConfig {
                     .build();
 
             return pipeline;
+        }
+    };
+
+    private Converter<Pipeline, PipelineGetDTO> pipelineToPipelineGetDTOConverter = new AbstractConverter<>() {
+        protected PipelineGetDTO convert(Pipeline pipeline) {
+            var edges = new TreeSet<EdgeDTO>();
+
+            pipeline.getEdges().forEach(
+                    edge -> {
+                        edges.add(new EdgeDTO(
+                                edge.getNodeIdi().toString(),
+                                edge.getNodeIdj().toString()
+                        ));
+                    }
+            );
+
+            var dto = PipelineGetDTO.builder()
+                    .pipelineId(pipeline.getPipelineId().toString())
+                    .tenantId(pipeline.getTenantId())
+                    .edges(edges)
+                    .build();
+            return dto;
         }
     };
 }

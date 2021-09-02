@@ -1,0 +1,33 @@
+syntax = "proto3";
+package com.ynero.ss.pipeline.dto.proto;
+
+message EdgeDTO {
+  string nodeIdi = 1;
+  string nodeIdj = 2;
+}
+
+message NodeDTO {
+  string script = 1;
+  repeated string args = 2;
+}
+
+message NodeGetDTO {
+  string nodeId = 1;
+  string script = 2;
+  repeated string args = 3;
+}
+
+message PipelineDTO {
+  string tenantId = 1;
+  repeated EdgeDTO edges = 2;
+}
+
+message PipelineGetDTO {
+  string pipelineId = 1;
+  string tenantId = 2;
+  repeated EdgeDTO edges = 3;
+}
+
+message PipelineId {
+  string pipelineId = 1;
+}
