@@ -33,11 +33,11 @@ public class NodeServiceImpl implements NodeService{
       return result;
     }
 
-    public UUID save(NodeDTO dto) {
+    public String save(NodeDTO dto) {
         var node = modelMapper.map(dto, Node.class);
         node.setNodeId(UUID.randomUUID());
         node = nodeRepository.save(node);
-        return node.getNodeId();
+        return node.getNodeId().toString();
     }
 
     public NodeGetDTO findById(String nodeId) {

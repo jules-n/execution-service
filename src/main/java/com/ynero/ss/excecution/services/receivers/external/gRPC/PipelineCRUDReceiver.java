@@ -84,8 +84,8 @@ public class PipelineCRUDReceiver extends PipelineCRUDServiceGrpc.PipelineCRUDSe
     public void update(com.ynero.ss.pipeline.dto.proto.PipelineCrud.PipelineUpdateDTO request,
                        io.grpc.stub.StreamObserver<com.ynero.ss.pipeline.dto.proto.PipelineCrud.Response> responseObserver) {
 
-        var dto = modelMapper.map(request.getDto(), PipelineDTO.class);
-        var result = pipelineService.update(dto,request.getId().getPipelineId());
+        var dto = modelMapper.map(request.getPipelineDto(), PipelineDTO.class);
+        var result = pipelineService.update(dto,request.getPipelineId());
         var response = PipelineCrud.Response.newBuilder();
         if (result) {
             response.setStatus(200);

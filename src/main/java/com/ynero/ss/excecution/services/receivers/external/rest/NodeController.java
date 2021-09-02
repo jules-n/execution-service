@@ -20,7 +20,7 @@ public class NodeController {
     @PostMapping
     private ResponseEntity<String> create(@RequestBody NodeDTO dto) {
         var nodeId = nodeService.save(dto);
-        return new ResponseEntity<String>(nodeId.toString(), HttpStatus.OK);
+        return new ResponseEntity<String>(nodeId, HttpStatus.OK);
     }
 
     @DeleteMapping
