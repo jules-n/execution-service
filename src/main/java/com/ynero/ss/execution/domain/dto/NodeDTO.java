@@ -11,5 +11,6 @@ import java.util.List;
 @NoArgsConstructor
 public class NodeDTO {
     private String script;
-    private List<String> args;
+    private List<String> inputPortsName;
+    private List<String> outputPortsName;
 }

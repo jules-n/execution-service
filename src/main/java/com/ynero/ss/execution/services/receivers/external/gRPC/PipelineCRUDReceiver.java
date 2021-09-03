@@ -29,6 +29,8 @@ public class PipelineCRUDReceiver extends PipelineCRUDServiceGrpc.PipelineCRUDSe
                         PipelineCrud.EdgeDTO.newBuilder()
                                 .setNodeIdi(edgeDTO.getNodeIdi())
                                 .setNodeIdj(edgeDTO.getNodeIdj())
+                                .setOutputPortNameOfNodeI(edgeDTO.getOutputPortNameOfNodeI())
+                                .setInputPortNameOfNodeJ(edgeDTO.getInputPortNameOfNodeJ())
                                 .build()
                 )
         );

@@ -17,7 +17,8 @@ public class NodeRepositoryCustomImpl implements NodeRepositoryCustom {
     public boolean update(Node node) {
         Update update = new Update();
         update.set("script", node.getScript());
-        update.set("args", node.getArgs());
+        update.set("inputPortsName",node.getInputPortsName());
+        update.set("outputPortsName",node.getOutputPortsName());
 
         Criteria criteria = new Criteria("nodeId").is(node.getNodeId());
 

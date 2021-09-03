@@ -14,5 +14,6 @@ import java.util.List;
 public class NodeGetDTO {
     private String nodeId;
     private String script;
-    private List<String> args;
+    private List<String> inputPortsName;
+    private List<String> outputPortsName;
 }

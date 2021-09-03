@@ -3,7 +3,6 @@ package com.ynero.ss.execution.domain;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
@@ -18,5 +17,6 @@ public class Node {
     private UUID nodeId;
     private String script;
     private byte[] compiledScript;
-    private List<String> args;
+    private List<String> inputPortsName;
+    private List<String> outputPortsName;
 }
