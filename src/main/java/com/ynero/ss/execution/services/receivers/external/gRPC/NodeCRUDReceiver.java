@@ -20,7 +20,14 @@ public class NodeCRUDReceiver extends NodeCRUDServiceGrpc.NodeCRUDServiceImplBas
     public void find(com.ynero.ss.pipeline.dto.proto.PipelineCrud.NodeId request,
                      io.grpc.stub.StreamObserver<com.ynero.ss.pipeline.dto.proto.PipelineCrud.NodeGetDTO> responseObserver) {
 
-        //responseObserver.onNext(response.build());
+        var result = nodeService.findById(request.getNodeId());
+        var response = PipelineCrud.NodeGetDTO.newBuilder()
+                .setNodeId(result.getNodeId())
+                .setScript(result.getScript())
+                .addAllInputPortsName(result.getOutputPortsName())
+                .addAllOutputPortsName(result.getOutputPortsName())
+                .build();
+        responseObserver.onNext(response);
         responseObserver.onCompleted();
     }
 

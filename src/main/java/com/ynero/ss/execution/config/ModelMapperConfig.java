@@ -34,7 +34,8 @@ public class ModelMapperConfig {
             var dto = NodeGetDTO.builder()
                     .nodeId(node.getNodeId().toString())
                     .script(node.getScript())
-                    .args(node.getArgs())
+                    .inputPortsName(node.getInputPortsName())
+                    .outputPortsName(node.getOutputPortsName())
                     .build();
             return dto;
         }
@@ -48,7 +49,9 @@ public class ModelMapperConfig {
                     edge -> {
                         edges.add(new Edge(
                                 UUID.fromString(edge.getNodeIdi()),
-                                UUID.fromString(edge.getNodeIdj())
+                                UUID.fromString(edge.getNodeIdj()),
+                                edge.getOutputPortNameOfNodeI(),
+                                edge.getInputPortNameOfNodeJ()
                         ));
                     }
             );
@@ -70,7 +73,9 @@ public class ModelMapperConfig {
                     edge -> {
                         edges.add(new EdgeDTO(
                                 edge.getNodeIdi().toString(),
-                                edge.getNodeIdj().toString()
+                                edge.getNodeIdj().toString(),
+                                edge.getOutputPortNameOfNodeI(),
+                                edge.getInputPortNameOfNodeJ()
                         ));
                     }
             );
