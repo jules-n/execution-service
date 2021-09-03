@@ -10,4 +10,6 @@ import lombok.NoArgsConstructor;
 public class EdgeDTO {
     private String nodeIdi;
     private String nodeIdj;
+    private String outputPortNameOfNodeI;
+    private String inputPortNameOfNodeJ;
 }
