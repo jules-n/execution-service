@@ -29,6 +29,9 @@ repositories {
 
 dependencies {
 
+    //groovy
+    implementation 'org.codehaus.groovy:groovy-all:3.0.8'
+
     //mongo
     implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
     implementation platform("com.github.cloudyrock.mongock:mongock-bom:${mongockVersion}")
@@ -59,15 +62,31 @@ dependencies {
     protobuf "com.jules.ss:proto-files:${project['com.jules.ss.proto-files.version']}"
 
     //lombok
-
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
+    testCompileOnly 'org.projectlombok:lombok'
+    testAnnotationProcessor 'org.projectlombok:lombok'
+    integrationCompileOnly 'org.projectlombok:lombok'
+    integrationAnnotationProcessor 'org.projectlombok:lombok'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    // testing (junit5 + mockito + testcontainers)
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
+    testImplementation 'org.junit.jupiter:junit-jupiter-params'
+    testImplementation 'org.mockito:mockito-core'
+    testImplementation 'org.assertj:assertj-core'
+    integrationImplementation "org.testcontainers:junit-jupiter:1.15.3"
+    integrationImplementation "org.testcontainers:mongodb:1.15.3"
 }
 
-test {
+tasks.withType(Test) {
     useJUnitPlatform()
+    testLogging {
+        events = ["passed", "failed", "skipped"]
+        exceptionFormat = "full"
+    }
 }
 
 protobuf {

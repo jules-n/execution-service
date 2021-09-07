@@ -6,13 +6,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class PipelineGetDTO {
-    private String pipelineId;
-    private String tenantId;
-    private List<EdgeDTO> edges;
+public class NodeBuildDTO {
+    private UUID nodeId;
+    private String script;
+    private List<PortBuildDTO> input;
+    private List<PortBuildDTO> output;
 }

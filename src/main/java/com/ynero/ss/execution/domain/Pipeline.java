@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.Set;
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -18,6 +18,6 @@ public class Pipeline {
     public static final String COLLECTION_NAME = "pipelines";
     private UUID pipelineId;
     private String tenantId;
-    private Set<Edge> edges;
+    private List<Edge> edges;
 
 }
