@@ -84,8 +84,8 @@ public class BuilderTest {
                         .outputPortsName(List.of("val"))
                         .build(),
                 NodeDTO.builder()
-                        .script("def val = params[\"val\"]; def K = params[\"K\"]; def C = val-K; Map<String, Object> result = new HashMap<>(); result.put(\"C\", C); return result;")
-                        .inputPortsName(List.of("val", "k"))
+                        .script("def val = params[\"val\"]; def K = params[\"K\"]; def C = val.toBigDecimal()-K.toBigDecimal(); Map<String, Object> result = new HashMap<>(); result.put(\"C\", C); return result;")
+                        .inputPortsName(List.of("val", "K"))
                         .outputPortsName(List.of("C"))
                         .build(),
                 NodeDTO.builder()
@@ -93,7 +93,7 @@ public class BuilderTest {
                         .outputPortsName(List.of("K"))
                         .build(),
                 NodeDTO.builder()
-                        .script("def inp1 = params[\"input-1\"]; def inp2 = params[\"input-2\"]; def avg = (inp1+inp2)/2; Map<String, Object> result = new HashMap<>(); result.put(\"avg\", avg); return result;")
+                        .script("def inp1 = params[\"input-1\"]; def inp2 = params[\"input-2\"]; def avg = (inp1.toBigDecimal()+inp2.toBigDecimal())/2; Map<String, Object> result = new HashMap<>(); result.put(\"avg\", avg); return result;")
                         .inputPortsName(List.of("input-1", "input-2"))
                         .outputPortsName(List.of("avg"))
                         .build()
@@ -168,7 +168,8 @@ public class BuilderTest {
         log.info(pipelineId);
         var pipeline = pipelineService.find(pipelineId);
         log.info(pipeline);
-        graphBuilder.build(pipelineDevices);
+        var results = graphBuilder.build(pipelineDevices);
+        results.forEach((k, v)->{log.info("port: {}, value: {}", k, v);});
     }
 
 }

@@ -1,10 +1,8 @@
 package com.ynero.ss.execution.builder;
 
 import com.ynero.ss.execution.domain.Node;
-import com.ynero.ss.execution.domain.Pipeline;
 import com.ynero.ss.execution.domain.dto.EdgeDTO;
 import com.ynero.ss.execution.domain.dto.NodeBuildDTO;
-import com.ynero.ss.execution.domain.dto.PipelineBuildDTO;
 import com.ynero.ss.execution.domain.dto.PortBuildDTO;
 import com.ynero.ss.execution.services.sl.NodeService;
 import com.ynero.ss.execution.services.sl.PipelineService;
@@ -36,13 +34,14 @@ public class GraphBuilder {
     @Setter(onMethod_ = {@Autowired})
     private GroovyShell groovyShell;
 
-    public PipelineBuildDTO build(PipelinesMessage.PipelineDevices pipelineDevices) {
+    public HashMap<String, Object> build(PipelinesMessage.PipelineDevices pipelineDevices) {
         var pipelineId = pipelineDevices.getPipelineId();
         var pipelineDTO = pipelineService.find(pipelineId);
 
         List<String> leaves = findLeaves(pipelineDTO.getEdges());
         List<Node> nodes = new ArrayList<>(); //list of nodes data from db
 
+        //Search of node sequence
         pipelineDTO.getEdges().forEach(
                 edgeDTO -> {
                     var nodeIdi = edgeDTO.getNodeIdi();
@@ -65,6 +64,7 @@ public class GraphBuilder {
                     }
                 }
         );
+        //End of search
 
 
         List<NodeBuildDTO> nodeBuildDTOS = new ArrayList<>();
@@ -133,56 +133,53 @@ public class GraphBuilder {
 
         var roots = findRoots(pipelineDTO.getEdges());
         nodeBuildDTOS.forEach(System.out::println);
-        var results = new ArrayList<List<PortBuildDTO>>();
+        var results = new HashMap<String, Object>();
+        var copy = List.copyOf(nodeBuildDTOS);
         roots.forEach(
                 root -> {
-                    nodeBuildDTOS.forEach(
+                    copy.forEach(
                             nodeBuildDTO -> {
                                 if (nodeBuildDTO.getNodeId().equals(UUID.fromString(root))) {
                                     var result = treeTraversal(nodeBuildDTO, nodeBuildDTOS, pipelineDTO.getEdges());
-                                    results.add(result.getOutput());
+                                    result.getOutput().forEach(
+                                            port -> results.put(port.getName(), port.getValue())
+                                    );
                                 }
                             }
                     );
                 }
         );
-        results.forEach(
-                port -> {
-                    log.info(port);
-                }
-        );
-        return null;
+        return results;
     }
 
     private NodeBuildDTO treeTraversal(NodeBuildDTO nodeBuildDTO, List<NodeBuildDTO> nodeBuildDTOS, List<EdgeDTO> edges) {
         nodeBuildDTO.getOutput().forEach(
                 output -> {
                     if (output.getValue() == null) {
-                        if(!nodeBuildDTO.getInput().isEmpty()){
+                        if (!(nodeBuildDTO.getInput() == null)) {
+                            nodeBuildDTO.getInput().forEach(
+                                    input -> {
+                                        if (input.getValue() == null) {
+                                            var portName = input.getName();
+                                            var edgeWithAdjacentNode = findEdgeWithAdjacentNode(portName, nodeBuildDTO.getNodeId(), edges);
+                                            var adjacentNode = nodeBuildDTOS.stream()
+                                                    .filter(buildDTO -> buildDTO.getNodeId().equals(UUID.fromString(edgeWithAdjacentNode.getNodeIdi())))
+                                                    .findFirst()
+                                                    .get();
+                                            nodeBuildDTOS.remove(adjacentNode);
+                                            var outputsOfAdjacentNode = treeTraversal(adjacentNode, nodeBuildDTOS, edges).getOutput();
+                                            var outputOfAdjacentNode = outputsOfAdjacentNode.stream()
+                                                    .filter(adjacentNodeOutput -> adjacentNodeOutput.getName().equals(edgeWithAdjacentNode.getOutputPortNameOfNodeI()))
+                                                    .map(adjacentNodeOutput -> adjacentNodeOutput.getValue()).findFirst().get();
+                                            input.setValue(outputOfAdjacentNode);
+                                        }
 
-                        }
-                        nodeBuildDTO.getInput().forEach(
-                                input -> {
-                                    if (input.getValue() == null) {
-                                        var portName = input.getName();
-                                        var edgeWithAdjacentNode = findEdgeWithAdjacentNode(portName, nodeBuildDTO.getNodeId(), edges);
-                                        var adjacentNode = nodeBuildDTOS.stream()
-                                                .filter(buildDTO -> buildDTO.getNodeId().equals(UUID.fromString(edgeWithAdjacentNode.getNodeIdi())))
-                                                .findFirst()
-                                                .get();
-                                        nodeBuildDTOS.remove(adjacentNode);
-                                        var outputsOfAdjacentNode = treeTraversal(adjacentNode, nodeBuildDTOS, edges).getOutput();
-                                        var outputOfAdjacentNode = outputsOfAdjacentNode.stream()
-                                                .filter(adjacentNodeOutput -> adjacentNodeOutput.getName().equals(edgeWithAdjacentNode.getOutputPortNameOfNodeI()))
-                                                .map( adjacentNodeOutput -> adjacentNodeOutput.getValue()).findFirst().get();
-                                        input.setValue(outputOfAdjacentNode);
-                                        log.info(outputsOfAdjacentNode);
                                     }
+                            );
+                        }
 
-                                }
-                        );
                         var script = groovyShell.parse(nodeBuildDTO.getScript());
-                        if (!nodeBuildDTO.getInput().isEmpty()) {
+                        if (!(nodeBuildDTO.getInput() == null)) {
                             var binding = new Binding();
                             var params = new HashMap<String, Object>();
                             nodeBuildDTO.getInput().forEach(
@@ -202,8 +199,13 @@ public class GraphBuilder {
 
     private EdgeDTO findEdgeWithAdjacentNode(String portName, UUID nodeId, List<EdgeDTO> edges) {
         return edges.stream().filter(
-                edgeDTO ->
-                        edgeDTO.getNodeIdj().equals(nodeId.toString()) && edgeDTO.getInputPortNameOfNodeJ().equals(portName)
+                edgeDTO -> {
+                    var isNeededId = edgeDTO.getNodeIdj().equals(nodeId.toString());
+                    var isNeededPort = edgeDTO.getInputPortNameOfNodeJ().equals(portName);
+                    if(isNeededId && isNeededPort)
+                        return true;
+                    return false;
+                }
         ).findFirst().get();
     }
 
@@ -226,21 +228,21 @@ public class GraphBuilder {
     }
 
     private Set<String> findRoots(List<EdgeDTO> edges) {
-        Set<String> leaves = new HashSet<>();
+        Set<String> roots = new HashSet<>();
 
         for (int i = 0; i < edges.size(); i++) {
             var currentPj = edges.get(i).getNodeIdj();
-            leaves.add(currentPj);
+            roots.add(currentPj);
 
             for (int j = 0; j < edges.size(); j++) {
                 if (currentPj.equals(edges.get(j).getNodeIdi())) {
-                    leaves.remove(currentPj);
+                    roots.remove(currentPj);
                     break;
                 }
             }
 
         }
-        return leaves;
+        return roots;
     }
 
 }
