@@ -12,6 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class NodeDTO {
+    private String nodeId;
     private String script;
     private List<String> inputPortsName;
     private List<String> outputPortsName;

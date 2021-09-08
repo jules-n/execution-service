@@ -69,7 +69,6 @@ dependencies {
     integrationCompileOnly 'org.projectlombok:lombok'
     integrationAnnotationProcessor 'org.projectlombok:lombok'
 
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
     // testing (junit5 + mockito + testcontainers)
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
@@ -88,7 +87,9 @@ tasks.withType(Test) {
         exceptionFormat = "full"
     }
 }
-
+wrapper {
+    gradleVersion = project.findProperty('org.gradle.version')
+}
 protobuf {
     protoc {
         artifact = "com.google.protobuf:protoc:3.2.0"

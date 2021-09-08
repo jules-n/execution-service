@@ -26,8 +26,12 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
+
+import static java.math.BigDecimal.ROUND_DOWN;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @AutoConfigureDataMongo
@@ -164,12 +168,10 @@ public class BuilderTest {
     }
 
     @Test
-    void output(){
-        log.info(pipelineId);
-        var pipeline = pipelineService.find(pipelineId);
-        log.info(pipeline);
-        var results = graphBuilder.build(pipelineDevices);
-        results.forEach((k, v)->{log.info("port: {}, value: {}", k, v);});
+    void executePipeline_ShouldReturnAvgOfTwoValuesInKInC(){
+        var expectedResultOfPipelineExecution = new HashMap<String, Object>(){{put(nodeIds.get(3)+":avg", new BigDecimal(17.35).setScale(2, ROUND_DOWN));}};
+        var actualResultOfPipelineExecution = graphBuilder.build(pipelineDevices);
+        assertThat(actualResultOfPipelineExecution).isEqualTo(expectedResultOfPipelineExecution);
     }
 
 }

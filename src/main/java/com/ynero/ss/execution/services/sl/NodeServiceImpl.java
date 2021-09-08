@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.UUID;
 
 @Service
-public class NodeServiceImpl implements NodeService{
+public class NodeServiceImpl implements NodeService {
 
     @Setter(onMethod_ = {@Autowired})
     private NodeRepository nodeRepository;
@@ -28,14 +28,16 @@ public class NodeServiceImpl implements NodeService{
     }
 
     public boolean delete(String nodeId) {
-      var id = UUID.fromString(nodeId);
-      var result =  nodeRepository.delete(id);
-      return result;
+        var id = UUID.fromString(nodeId);
+        var result = nodeRepository.delete(id);
+        return result;
     }
 
     public String save(NodeDTO dto) {
         var node = modelMapper.map(dto, Node.class);
-        node.setNodeId(UUID.randomUUID());
+        if (node.getNodeId() == null) {
+            node.setNodeId(UUID.randomUUID());
+        }
         node = nodeRepository.save(node);
         return node.getNodeId().toString();
     }
@@ -43,7 +45,7 @@ public class NodeServiceImpl implements NodeService{
     public NodeGetDTO findById(String nodeId) {
         var id = UUID.fromString(nodeId);
         var node = nodeRepository.findByNodeId(id);
-        if(!node.isEmpty()){
+        if (!node.isEmpty()) {
             var nodeDTO = modelMapper.map(node.get(), NodeGetDTO.class);
             return nodeDTO;
         }

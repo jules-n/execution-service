@@ -132,7 +132,6 @@ public class GraphBuilder {
         );
 
         var roots = findRoots(pipelineDTO.getEdges());
-        nodeBuildDTOS.forEach(System.out::println);
         var results = new HashMap<String, Object>();
         var copy = List.copyOf(nodeBuildDTOS);
         roots.forEach(
@@ -142,7 +141,13 @@ public class GraphBuilder {
                                 if (nodeBuildDTO.getNodeId().equals(UUID.fromString(root))) {
                                     var result = treeTraversal(nodeBuildDTO, nodeBuildDTOS, pipelineDTO.getEdges());
                                     result.getOutput().forEach(
-                                            port -> results.put(port.getName(), port.getValue())
+                                            port -> {
+                                                StringBuilder portName = new StringBuilder();
+                                                portName.append(result.getNodeId().toString());
+                                                portName.append(":");
+                                                portName.append(port.getName());
+                                                results.put(portName.toString(), port.getValue());
+                                            }
                                     );
                                 }
                             }
@@ -190,7 +195,6 @@ public class GraphBuilder {
                         }
                         var scriptResult = ((Map<String, Object>) script.run()).get(output.getName());
                         output.setValue(scriptResult);
-                        log.info(scriptResult);
                     }
                 }
         );
@@ -202,7 +206,7 @@ public class GraphBuilder {
                 edgeDTO -> {
                     var isNeededId = edgeDTO.getNodeIdj().equals(nodeId.toString());
                     var isNeededPort = edgeDTO.getInputPortNameOfNodeJ().equals(portName);
-                    if(isNeededId && isNeededPort)
+                    if (isNeededId && isNeededPort)
                         return true;
                     return false;
                 }

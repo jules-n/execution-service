@@ -10,6 +10,7 @@ spring:
           destination:
              add: ${TOPIC_ON_ADD:device-pipeline-add}
              drop: ${TOPIC_ON_DROP:device-pipeline-drop}
+             result: ${TOPIC_ON_RESULT:device-pipeline-result}
     gcp:
       project-id: ${PROJECT_ID:single-system}
 server:
