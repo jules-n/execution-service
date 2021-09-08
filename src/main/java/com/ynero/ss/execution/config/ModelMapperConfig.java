@@ -13,7 +13,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.TreeSet;
+import java.util.ArrayList;
 import java.util.UUID;
 
 @Configuration
@@ -25,8 +25,22 @@ public class ModelMapperConfig {
         modelMapper.addConverter(dtoPipelineConverter);
         modelMapper.addConverter(pipelineToPipelineGetDTOConverter);
         modelMapper.addConverter(nodeToNodeGetDTOConverter);
+        modelMapper.addConverter(nodeGetDTOToNodeConverter);
         return modelMapper;
     }
+
+    private Converter<NodeGetDTO, Node> nodeGetDTOToNodeConverter = new AbstractConverter<>() {
+        protected Node convert(NodeGetDTO dto) {
+
+            var node = Node.builder()
+                    .nodeId(UUID.fromString(dto.getNodeId()))
+                    .script(dto.getScript())
+                    .inputPortsName(dto.getInputPortsName())
+                    .outputPortsName(dto.getOutputPortsName())
+                    .build();
+            return node;
+        }
+    };
 
     private Converter<Node, NodeGetDTO> nodeToNodeGetDTOConverter = new AbstractConverter<>() {
         protected NodeGetDTO convert(Node node) {
@@ -43,7 +57,7 @@ public class ModelMapperConfig {
 
     private Converter<PipelineDTO, Pipeline> dtoPipelineConverter = new AbstractConverter<>() {
         protected Pipeline convert(PipelineDTO dto) {
-            var edges = new TreeSet<Edge>();
+            var edges = new ArrayList<Edge>();
 
             dto.getEdges().forEach(
                     edge -> {
@@ -67,7 +81,7 @@ public class ModelMapperConfig {
 
     private Converter<Pipeline, PipelineGetDTO> pipelineToPipelineGetDTOConverter = new AbstractConverter<>() {
         protected PipelineGetDTO convert(Pipeline pipeline) {
-            var edges = new TreeSet<EdgeDTO>();
+            var edges = new ArrayList<EdgeDTO>();
 
             pipeline.getEdges().forEach(
                     edge -> {
