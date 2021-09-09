@@ -18,6 +18,7 @@ public class Node {
     public static final String COLLECTION_NAME = "nodes";
     private UUID nodeId;
     private String script;
+    private String description;
     private byte[] compiledScript;
     private List<String> inputPortsName;
     private List<String> outputPortsName;

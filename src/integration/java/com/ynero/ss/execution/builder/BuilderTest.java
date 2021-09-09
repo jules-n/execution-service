@@ -86,19 +86,23 @@ public class BuilderTest {
                         .script("def val = params[\"temperature-read\"]; Map<String, Object> result = new HashMap<>(); result.put(\"val\", val); return result;")
                         .inputPortsName(List.of("temperature-read"))
                         .outputPortsName(List.of("val"))
+                        .description("Node for getting data from device")
                         .build(),
                 NodeDTO.builder()
                         .script("def val = params[\"val\"]; def K = params[\"K\"]; def C = val.toBigDecimal()-K.toBigDecimal(); Map<String, Object> result = new HashMap<>(); result.put(\"C\", C); return result;")
                         .inputPortsName(List.of("val", "K"))
                         .outputPortsName(List.of("C"))
+                        .description("Node for changing temperature in K to temperature in C")
                         .build(),
                 NodeDTO.builder()
                         .script("Map<String, Object> result = new HashMap<>(); result.put(\"K\", 273.15); return result;")
                         .outputPortsName(List.of("K"))
+                        .description("Constant node of diff between K and C")
                         .build(),
                 NodeDTO.builder()
                         .script("def inp1 = params[\"input-1\"]; def inp2 = params[\"input-2\"]; def avg = (inp1.toBigDecimal()+inp2.toBigDecimal())/2; Map<String, Object> result = new HashMap<>(); result.put(\"avg\", avg); return result;")
                         .inputPortsName(List.of("input-1", "input-2"))
+                        .description("Node of avg of two val")
                         .outputPortsName(List.of("avg"))
                         .build()
         );

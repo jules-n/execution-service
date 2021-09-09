@@ -14,6 +14,7 @@ import java.util.List;
 public class NodeDTO {
     private String nodeId;
     private String script;
+    private String description;
     private List<String> inputPortsName;
     private List<String> outputPortsName;
 }

@@ -35,6 +35,7 @@ public class ModelMapperConfig {
             var node = Node.builder()
                     .nodeId(UUID.fromString(dto.getNodeId()))
                     .script(dto.getScript())
+                    .description(dto.getDescription())
                     .inputPortsName(dto.getInputPortsName())
                     .outputPortsName(dto.getOutputPortsName())
                     .build();
@@ -48,6 +49,7 @@ public class ModelMapperConfig {
             var dto = NodeGetDTO.builder()
                     .nodeId(node.getNodeId().toString())
                     .script(node.getScript())
+                    .description(node.getDescription())
                     .inputPortsName(node.getInputPortsName())
                     .outputPortsName(node.getOutputPortsName())
                     .build();
