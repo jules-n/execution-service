@@ -6,6 +6,7 @@ import com.ynero.ss.execution.domain.dto.PipelineDTO;
 import com.ynero.ss.execution.services.sl.NodeService;
 import com.ynero.ss.execution.services.sl.PipelineService;
 import com.ynero.ss.pipeline.dto.proto.PipelinesMessage;
+import dtos.ResultDTO;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.AfterEach;
@@ -173,8 +174,16 @@ public class BuilderTest {
 
     @Test
     void executePipeline_ShouldReturnAvgOfTwoValuesInKInC(){
-        var expectedResultOfPipelineExecution = new HashMap<String, Object>(){{put(nodeIds.get(3)+":avg", new BigDecimal(17.35).setScale(2, ROUND_DOWN));}};
-        var actualResultOfPipelineExecution = graphBuilder.build(pipelineDevices);
+        var expectedResultOfPipelineExecution = new ArrayList<ResultDTO>(){{add(
+                ResultDTO.builder()
+                .pipelineId(UUID.fromString(pipelineDevices.getPipelineId()))
+                .value(new BigDecimal(17.35).setScale(2, ROUND_DOWN))
+                .portName("avg")
+                .deviceId(UUID.fromString(nodeIds.get(3)))
+                .tenantId("Volbeat")
+                .build()
+        );}};
+        var actualResultOfPipelineExecution = graphBuilder.build(pipelineDevices, "Volbeat");
         assertThat(actualResultOfPipelineExecution).isEqualTo(expectedResultOfPipelineExecution);
     }
 

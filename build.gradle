@@ -32,6 +32,9 @@ dependencies {
     //groovy
     implementation 'org.codehaus.groovy:groovy-all:3.0.8'
 
+    //kafka
+    implementation 'org.springframework.kafka:spring-kafka'
+
     //mongo
     implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
     implementation platform("com.github.cloudyrock.mongock:mongock-bom:${mongockVersion}")

@@ -7,6 +7,7 @@ import com.ynero.ss.execution.domain.dto.PortBuildDTO;
 import com.ynero.ss.execution.services.sl.NodeService;
 import com.ynero.ss.execution.services.sl.PipelineService;
 import com.ynero.ss.pipeline.dto.proto.PipelinesMessage;
+import dtos.ResultDTO;
 import groovy.lang.Binding;
 import groovy.lang.GroovyShell;
 import lombok.Setter;
@@ -34,7 +35,7 @@ public class GraphBuilder {
     @Setter(onMethod_ = {@Autowired})
     private GroovyShell groovyShell;
 
-    public HashMap<String, Object> build(PipelinesMessage.PipelineDevices pipelineDevices) {
+    public List<ResultDTO> build(PipelinesMessage.PipelineDevices pipelineDevices, String tenantId) {
         var pipelineId = pipelineDevices.getPipelineId();
         var pipelineDTO = pipelineService.find(pipelineId);
 
@@ -132,7 +133,7 @@ public class GraphBuilder {
         );
 
         var roots = findRoots(pipelineDTO.getEdges());
-        var results = new HashMap<String, Object>();
+        var results = new ArrayList<ResultDTO>();
         var copy = List.copyOf(nodeBuildDTOS);
         roots.forEach(
                 root -> {
@@ -142,11 +143,14 @@ public class GraphBuilder {
                                     var result = treeTraversal(nodeBuildDTO, nodeBuildDTOS, pipelineDTO.getEdges());
                                     result.getOutput().forEach(
                                             port -> {
-                                                StringBuilder portName = new StringBuilder();
-                                                portName.append(result.getNodeId().toString());
-                                                portName.append(":");
-                                                portName.append(port.getName());
-                                                results.put(portName.toString(), port.getValue());
+                                                var resultDTO = ResultDTO.builder()
+                                                        .value(port.getValue())
+                                                        .portName(port.getName())
+                                                        .tenantId(tenantId)
+                                                        .pipelineId(UUID.fromString(pipelineId))
+                                                        .deviceId(result.getNodeId())
+                                                        .build();
+                                                results.add(resultDTO);
                                             }
                                     );
                                 }
