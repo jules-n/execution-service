@@ -31,8 +31,7 @@ public class NodeController {
     @GetMapping
     private ResponseEntity<NodeGetDTO> find(@RequestParam String nodeId) {
         var node = nodeService.findById(nodeId);
-        return node==null ? ResponseEntity.badRequest().build() :
-                ResponseEntity.ok(node);
+        return ResponseEntity.ok(node);
     }
 
     @PutMapping

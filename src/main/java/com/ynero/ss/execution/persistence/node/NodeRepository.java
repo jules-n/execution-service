@@ -8,6 +8,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface NodeRepository extends MongoRepository<Node, UUID>, NodeRepositoryCustom {
+public interface NodeRepository extends MongoRepository<Node, UUID>, NodeRepositoryCustom{
     Optional<Node> findByNodeId(UUID nodeId);
 }

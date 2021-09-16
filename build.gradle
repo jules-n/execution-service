@@ -28,6 +28,9 @@ repositories {
 }
 
 dependencies {
+    //lettuce+redis
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis:2.5.4'
+    implementation 'io.lettuce:lettuce-core:6.1.4.RELEASE'
 
     //groovy
     implementation 'org.codehaus.groovy:groovy-all:3.0.8'
@@ -51,6 +54,7 @@ dependencies {
     //shared
     implementation 'com.jules.ss:common-dtos:1.0.5'
     implementation 'com.jules.ss:converters:1.0.1'
+    implementation 'com.jules.ss:cache-lib:0.0.1'
 
     //pub-sub
     implementation platform('com.google.cloud:libraries-bom:20.9.0')
