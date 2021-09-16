@@ -1,4 +1,4 @@
-package com.ynero.ss.event_receiver.config;
+package com.ynero.ss.execution.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
