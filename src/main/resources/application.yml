@@ -3,6 +3,11 @@ spring:
     mongodb:
       uri: ${URI:mongodb://localhost:27017}
       database: ${DATABASE:execution-service}
+    redis:
+      host: ${REDIS_HOST:127.0.0.1}
+      port: ${REDIS_PORT:6379}
+      timeout: 6000
+      expiration: 600
   cloud:
     stream:
       bindings:
