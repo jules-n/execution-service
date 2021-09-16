@@ -5,6 +5,7 @@ import com.ynero.ss.execution.domain.dto.NodeDTO;
 import com.ynero.ss.execution.domain.dto.NodeGetDTO;
 import com.ynero.ss.execution.persistence.node.NodeRepository;
 import lombok.Setter;
+import lombok.SneakyThrows;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,6 +43,7 @@ public class NodeServiceImpl implements NodeService {
         return node.getNodeId().toString();
     }
 
+    @SneakyThrows
     public NodeGetDTO findById(String nodeId) {
         var id = UUID.fromString(nodeId);
         var node = nodeRepository.findByNodeId(id);
@@ -49,6 +51,6 @@ public class NodeServiceImpl implements NodeService {
             var nodeDTO = modelMapper.map(node.get(), NodeGetDTO.class);
             return nodeDTO;
         }
-        return null;
+        throw new Exception("No such node");
     }
 }
