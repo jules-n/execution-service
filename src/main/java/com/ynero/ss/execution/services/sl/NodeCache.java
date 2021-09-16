@@ -4,6 +4,7 @@ import com.ynero.ss.execution.domain.Node;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -12,10 +13,11 @@ import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 @Service
+@ConditionalOnProperty(name = "spring.data.redis.cache.internalImplementation", havingValue = "true")
 public class NodeCache{
 
     @Setter(onMethod_ = {@Autowired})
-    private RedisTemplate<String, Object> redisTemplate;
+    private RedisTemplate<String, Node> redisTemplate;
 
     @Setter(onMethod_ = {@Value("${spring.data.redis.expiration}")})
     private int expirationTime;
