@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{.Values.deployment.name}}
+  labels:
+    app: execution-service-app
+    workload: {{.Values.deployment.name}}
+spec:
+  replicas: {{.Values.deployment.replicaCount}}
+  selector:
+    matchLabels:
+      app: execution-service-app
+      workload: {{.Values.deployment.name}}
+  template:
+    metadata:
+      labels:
+        app: execution-service-app
+        workload: {{.Values.deployment.name}}
+    spec:
+      volumes:
+        - name: google-cloud-key
+          secret:
+            secretName: execution-service-sa-key
+      containers:
+        - name: {{.Values.deployment.name}}
+          image: "gcr.io/single-system-dev/execution-service:{{.Values.app.version}}"
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: {{.Values.actuator.server.port}}
+          ports:
+            - containerPort: {{.Values.deployment.port}}
+            - containerPort: {{.Values.actuator.server.port}}
+            - containerPort: {{.Values.deployment.grpc.port}}
+          volumeMounts:
+            - name: google-cloud-key
+              mountPath: /var/secrets/google
+          env:
+            - name: GOOGLE_APPLICATION_CREDENTIALS
+              value: /var/secrets/google/key.json
+            - name: MONGODB_URI
+              value: "{{ .Values.deployment.mongo.uri}}"
+            - name: MONGODB_DATABASE
+              value: "{{ .Values.deployment.mongo.database}}"
+            - name: REDIS_HOST
+              value: "{{ .Values.deployment.redis.host}}"
+            - name: REDIS_PORT
+              value: "{{ .Values.deployment.redis.port}}"
+            - name: REDIS_TIMEOUT
+              value: "{{ .Values.deployment.redis.timeout}}"
+            - name: REDIS_EXPIRATION
+              value: "{{ .Values.deployment.redis.expiration}}"
+            - name: PROJECT_ID
+              value: "{{ .Values.deployment.projectId}}"
+            - name: KAFKA_BOOTSTRAP_SERVER
+              value: "{{ .Values.deployment.kafka.bootstrap.server}}"
+            - name: SERVER_PORT
+              value: "{{ .Values.deployment.port}}"
+            - name: TOPIC_ON_ADD
+              value: "{{ .Values.deployment.topic.pipeline.add}}"
+            - name: TOPIC_ON_DROP
+              value: "{{ .Values.deployment.topic.pipeline.drop}}"
+            - name: RESULTS_SENDING_DATA
+              value: "{{ .Values.deployment.kafka.topic.resultsSendingData}}"
+            - name: GRPC_SERVER_PORT
+              value: "{{ .Values.deployment.grpc.port}}"
+            - name: ACTUATOR_EXPOSE_ENDPOINTS
+              value: "{{ .Values.actuator.endpoints.web.exposure.include}}"
+            - name: ACTUATOR_PORT
+              value: "{{ .Values.actuator.server.port}}"

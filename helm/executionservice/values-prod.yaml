@@ -1,0 +1,5 @@
+actuator:
+  endpoints:
+    web:
+      exposure:
+        include: "health,info"

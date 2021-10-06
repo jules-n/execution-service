@@ -1,0 +1,36 @@
+deployment:
+  grpc:
+    port: 9099
+  name: execution-service
+  replicaCount: 1
+  image:
+    name: gcr.io/single-system-dev/execution-service:0.0.1
+  port: 9098
+  mongo:
+    uri: mongodb://mongo-0.mongo:27017/
+    database: execution-service
+  redis:
+    host: 10.133.169.11
+    port: 6379
+    timeout: 6000
+    expiration: 3000
+  projectId: single-system-dev
+  kafka:
+    bootstrap:
+        server: 10.8.15.224:9092
+    topic:
+      resultsSendingData: results-sending-data
+  topic:
+    pipeline:
+      add: pipeline-adding
+      drop: pipeline-deleting
+service:
+  target:
+    port: 9098
+actuator:
+  server:
+    port: 8058
+  endpoints:
+    web:
+      exposure:
+        include: '*'
