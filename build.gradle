@@ -4,13 +4,24 @@ plugins {
     id 'com.coditory.integration-test' version '1.2.3'
     id 'java'
     id "com.google.protobuf" version "0.8.17"
-}
+    id "com.palantir.git-version" version "0.12.3"
 
+}
 group = 'com.ynero.ss'
-version = '0.0.1-SNAPSHOT'
+version gitVersion()
 sourceCompatibility = '11'
 targetCompatibility = '11'
 
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+springBoot {
+    buildInfo()
+}
+bootJar {
+    archiveFileName = "${project.name}.jar"
+}
 repositories {
     mavenCentral()
     mavenLocal()
@@ -55,10 +66,14 @@ dependencies {
     implementation 'com.jules.ss:common-dtos:1.0.5'
     implementation 'com.jules.ss:converters:1.0.1'
     implementation 'com.jules.ss:cache-lib:0.0.1'
+    implementation 'com.jules.ss:healthchecks:0.0.3'
 
     //pub-sub
     implementation platform('com.google.cloud:libraries-bom:20.9.0')
     implementation 'com.google.cloud:google-cloud-pubsub'
+    implementation 'org.springframework.cloud:spring-cloud-gcp-autoconfigure:1.1.0.RELEASE'
+    implementation group: 'org.springframework.cloud', name: 'spring-cloud-gcp-pubsub', version: '1.2.1.RELEASE'
+
 
     //gRPC
     implementation "com.jules.ss:proto-files:${project['com.jules.ss.proto-files.version']}"
