@@ -19,11 +19,12 @@ spring:
              drop: ${TOPIC_ON_DROP:device-pipeline-drop}
     gcp:
       project-id: ${PROJECT_ID:single-system}
-  producer:
-    results-sending-data-topic: ${RESULTS_SENDING_DATA:results-sending-data}
-    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVER:localhost:9092}
-    key-serializer: org.apache.kafka.common.serialization.StringSerializer
-    value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+  kafka:
+    producer:
+      results-sending-data-topic: ${RESULTS_SENDING_DATA:results-sending-data}
+      bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVER:localhost:9092}
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
 server:
   port: ${SERVER_PORT:9098}
 

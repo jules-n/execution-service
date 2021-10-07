@@ -14,7 +14,7 @@ import java.util.List;
 @Configuration
 public class AdminClientConfig {
 
-    @Setter(onMethod_ = {@Value("${spring.producer.bootstrap-servers}")})
+    @Setter(onMethod_ = {@Value("${spring.kafka.producer.bootstrap-servers}")})
     private String bootstrapServers;
 
     @Setter(onMethod_ = {@Autowired})

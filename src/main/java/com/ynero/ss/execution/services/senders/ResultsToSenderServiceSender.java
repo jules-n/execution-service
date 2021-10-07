@@ -14,7 +14,7 @@ public class ResultsToSenderServiceSender {
 
     private final KafkaTemplate<String, String> kafkaTemplate;
     private final DTOToMessageJSONConverter converter;
-    @Setter(onMethod_ = {@Value("${spring.producer.results-sending-data-topic}")})
+    @Setter(onMethod_ = {@Value("${spring.kafka.producer.results-sending-data-topic}")})
     private String topic;
 
     public ResultsToSenderServiceSender(KafkaTemplate<String, String> kafkaTemplate, DTOToMessageJSONConverter converter) {
