@@ -24,6 +24,13 @@ spec:
       containers:
         - name: {{.Values.deployment.name}}
           image: "gcr.io/single-system-dev/execution-service:{{.Values.app.version}}"
+          resources:
+            requests:
+              cpu: {{ .Values.deployment.containers.resources.requests.cpu }}
+              memory: {{ .Values.deployment.containers.resources.requests.memory }}
+            limits:
+              cpu: {{ .Values.deployment.containers.resources.limits.cpu }}
+              memory: {{ .Values.deployment.containers.resources.limits.memory }}
           livenessProbe:
             httpGet:
               path: /actuator/health
@@ -68,3 +75,5 @@ spec:
               value: "{{ .Values.actuator.endpoints.web.exposure.include}}"
             - name: ACTUATOR_PORT
               value: "{{ .Values.actuator.server.port}}"
+            - name: JDK_JAVA_OPTIONS
+              value: "{{ .Values.env.JDK_JAVA_OPTIONS }}"

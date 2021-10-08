@@ -2,9 +2,15 @@ deployment:
   grpc:
     port: 9099
   name: execution-service
+  containers:
+    resources:
+      requests:
+        cpu: 100m
+        memory: 512Mi
+      limits:
+        cpu: 1000m
+        memory: 4Gi
   replicaCount: 1
-  image:
-    name: gcr.io/single-system-dev/execution-service:0.0.1
   port: 9098
   mongo:
     uri: mongodb://mongo-0.mongo:27017/
@@ -34,3 +40,5 @@ actuator:
     web:
       exposure:
         include: '*'
+env:
+  JDK_JAVA_OPTIONS: "-Xmx3584M"
