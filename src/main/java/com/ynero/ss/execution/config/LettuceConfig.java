@@ -42,6 +42,7 @@ public class LettuceConfig {
         lettuceConnectionFactory.setHostName(hostName);
         lettuceConnectionFactory.setTimeout(6000000);
         lettuceConnectionFactory.setVerifyPeer(false);
+        lettuceConnectionFactory.setPassword("");
         return lettuceConnectionFactory;
     }
 
