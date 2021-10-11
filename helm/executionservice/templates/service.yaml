@@ -16,5 +16,3 @@ spec:
       targetPort: {{.Values.deployment.grpc.port}}
       name: grpc
       protocol: TCP
-      nodePort: 30080
-  type: NodePort
