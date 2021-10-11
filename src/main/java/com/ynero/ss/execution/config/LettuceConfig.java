@@ -38,11 +38,10 @@ public class LettuceConfig {
     @Bean
     public LettuceConnectionFactory lettuceConnectionFactory() {
         var lettuceConnectionFactory = new LettuceConnectionFactory();
-        lettuceConnectionFactory.setPort(port);
-        lettuceConnectionFactory.setHostName(hostName);
-        lettuceConnectionFactory.setTimeout(6000000);
-        lettuceConnectionFactory.setVerifyPeer(false);
-        lettuceConnectionFactory.setPassword("");
+        lettuceConnectionFactory.getStandaloneConfiguration()
+                .setHostName(hostName);
+        lettuceConnectionFactory.getStandaloneConfiguration()
+                .setPort(port);
         return lettuceConnectionFactory;
     }
 
