@@ -8,11 +8,13 @@ spec:
   selector:
     app: execution-service-app
   ports:
-    - port: {{.Values.deployment.grpc.port}}
-      targetPort: {{.Values.deployment.grpc.port}}
-      name: grpc
-      protocol: TCP
     - port: {{.Values.deployment.port}}
       protocol: TCP
       name: serv
       targetPort: {{.Values.service.target.port}}
+    - port: {{.Values.deployment.grpc.port}}
+      targetPort: {{.Values.deployment.grpc.port}}
+      name: grpc
+      protocol: TCP
+      nodePort: 30080
+  type: NodePort
