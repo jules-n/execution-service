@@ -35,6 +35,8 @@ public class LettuceConfig {
     @Bean
     public LettuceConnectionFactory lettuceConnectionFactory() {
         var lettuceConnectionFactory = new LettuceConnectionFactory();
+        lettuceConnectionFactory.setUseSsl(true);
+        lettuceConnectionFactory.setVerifyPeer(false);
         lettuceConnectionFactory.getStandaloneConfiguration()
                 .setHostName(hostName);
         lettuceConnectionFactory.getStandaloneConfiguration()
