@@ -1,6 +1,4 @@
 spring:
-  redis:
-    ssl: true
   data:
     mongodb:
       uri: ${MONGODB_URI:mongodb://localhost:27017}
@@ -8,6 +6,7 @@ spring:
     redis:
       host: ${REDIS_HOST:127.0.0.1}
       port: ${REDIS_PORT:6379}
+      ssl: true
       timeout: ${REDIS_TIMEOUT:6000}
       expiration: ${REDIS_EXPIRATION:600}
       cache:
