@@ -35,6 +35,7 @@ public class PipelineReceiver extends PipelineQueryReceiverServiceGrpc.PipelineQ
                 }
         ).collect(Collectors.toList());
         log.info("res: {}", res);
+        log.info("res-1: {}", request.getPipelineDevicesList().get(0).getDevicesDataList());
 /*        var results = request.getPipelineDevicesList().stream().map(
                 result -> graphBuilder.build(result, request.getTenantId())
         )
