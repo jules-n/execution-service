@@ -9,6 +9,7 @@ import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactor
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import services.CacheService;
+import services.NoCacheImpl;
 import services.RedisWithPrefixOptionCacheServiceImpl;
 
 @Configuration
@@ -38,12 +39,12 @@ public class LettuceConfig {
                 .setHostName(hostName);
         lettuceConnectionFactory.getStandaloneConfiguration()
                 .setPort(port);
-        lettuceConnectionFactory.setTimeout(6000);
+        lettuceConnectionFactory.setTimeout(60000);
         return lettuceConnectionFactory;
     }
 
     @Bean
     public CacheService<String, Node> cacheService() {
-        return new RedisWithPrefixOptionCacheServiceImpl<String, Node>(redisTemplate(), "node: ");
+        return new NoCacheImpl<String, Node>();
     }
 }
