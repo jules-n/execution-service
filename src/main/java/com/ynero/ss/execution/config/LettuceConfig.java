@@ -1,5 +1,5 @@
 package com.ynero.ss.execution.config;
-
+/*
 import com.ynero.ss.execution.domain.Node;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,12 +10,18 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import services.CacheService;
 import services.NoCacheImpl;
-import services.RedisWithPrefixOptionCacheServiceImpl;
+import services.RedisWithPrefixOptionCacheServiceImpl;*/
+
+import com.ynero.ss.execution.domain.Node;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import services.CacheService;
+import services.NoCacheImpl;
 
 @Configuration
 public class LettuceConfig {
 
-    @Setter(onMethod_ = @Value("${spring.redis.host}"))
+    /*@Setter(onMethod_ = @Value("${spring.redis.host}"))
     private String hostName;
 
     @Setter(onMethod_ = @Value("${spring.redis.port}"))
@@ -41,8 +47,7 @@ public class LettuceConfig {
                 .setPort(port);
         lettuceConnectionFactory.setTimeout(60000);
         return lettuceConnectionFactory;
-    }
-
+    }*/
     @Bean
     public CacheService<String, Node> cacheService() {
         return new NoCacheImpl<String, Node>();

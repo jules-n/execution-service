@@ -39,9 +39,9 @@ repositories {
 }
 
 dependencies {
-    //lettuce+redis
-    implementation 'org.springframework.boot:spring-boot-starter-data-redis:2.5.4'
-    implementation 'io.lettuce:lettuce-core:6.1.4.RELEASE'
+//    //lettuce+redis
+//    implementation 'org.springframework.boot:spring-boot-starter-data-redis:2.5.4'
+//    implementation 'io.lettuce:lettuce-core:6.1.4.RELEASE'
 
     //groovy
     implementation 'org.codehaus.groovy:groovy-all:3.0.8'

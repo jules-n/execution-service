@@ -10,6 +10,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Log4j2
 public class PipelineReceiver extends PipelineQueryReceiverServiceGrpc.PipelineQueryReceiverServiceImplBase {
@@ -26,6 +27,12 @@ public class PipelineReceiver extends PipelineQueryReceiverServiceGrpc.PipelineQ
 
         log.info(request);
         log.info(request.getPipelineDevicesList().size());
+        request.getPipelineDevicesList().stream().map(
+                r -> {
+                    log.info(r);
+                    return r.getDevicesDataList();
+                }
+        );
 /*        var results = request.getPipelineDevicesList().stream().map(
                 result -> graphBuilder.build(result, request.getTenantId())
         )
