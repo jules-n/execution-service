@@ -65,7 +65,6 @@ dependencies {
     //shared
     implementation 'com.jules.ss:common-dtos:1.0.5'
     implementation 'com.jules.ss:converters:1.0.1'
-    implementation 'com.jules.ss:cache-lib:0.0.1'
     implementation 'com.jules.ss:healthchecks:0.0.3'
 
     //pub-sub
