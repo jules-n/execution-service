@@ -26,6 +26,7 @@ public class PipelineReceiver extends PipelineQueryReceiverServiceGrpc.PipelineQ
                         io.grpc.stub.StreamObserver<com.google.protobuf.Empty> responseObserver) {
 
         log.info("request in pipelineReceiver: {}", request);
+        log.info("test gb on null: {}", graphBuilder==null);
         var results = request.getPipelineDevicesList().stream().map(
                 result -> {
                    log.info("result: {}", result);
