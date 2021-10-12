@@ -27,12 +27,14 @@ public class PipelineReceiver extends PipelineQueryReceiverServiceGrpc.PipelineQ
 
         log.info(request);
         log.info(request.getPipelineDevicesList().size());
-        request.getPipelineDevicesList().stream().map(
+
+        var res = request.getPipelineDevicesList().stream().map(
                 r -> {
-                    log.info(r);
+                    log.info("log: {}", r.getDevicesDataList());
                     return r.getDevicesDataList();
                 }
-        );
+        ).collect(Collectors.toList());
+        log.info("res: {}", res);
 /*        var results = request.getPipelineDevicesList().stream().map(
                 result -> graphBuilder.build(result, request.getTenantId())
         )
