@@ -1,11 +1,11 @@
 spring:
-  redis:
-    host: ${REDIS_HOST:127.0.0.1}
-    port: ${REDIS_PORT:6379}
+#  redis:
+#    host: ${REDIS_HOST:127.0.0.1}
+#    port: ${REDIS_PORT:6379}
   data:
-    redis:
-      timeout: 6000
-      expiration: 600
+#    redis:
+#      timeout: 6000
+#      expiration: 600
   cloud:
     stream:
       bindings:
