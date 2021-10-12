@@ -3,16 +3,15 @@ kind: Service
 metadata:
   name: execution-service-serv
   annotations:
-    cloud.google.com/app-protocols: '{"grpc":"HTTP2"}'
+    konghq.com/protocol: grpc
 spec:
   selector:
     app: execution-service-app
   ports:
+    - port: {{.Values.deployment.grpc.port}}
+      targetPort: {{.Values.deployment.grpc.port}}
+      name: grpc
     - port: {{.Values.deployment.port}}
       protocol: TCP
       name: serv
       targetPort: {{.Values.service.target.port}}
-    - port: {{.Values.deployment.grpc.port}}
-      targetPort: {{.Values.deployment.grpc.port}}
-      name: grpc
-      protocol: TCP

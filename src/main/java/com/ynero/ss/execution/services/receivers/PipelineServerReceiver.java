@@ -33,10 +33,6 @@ public class PipelineServerReceiver {
                 .addService(new NodeCRUDReceiver())
                 .build();
         server.start();
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            server.shutdown();
-            log.info("Successfully stopped the server");
-        }));
     }
 
     @SneakyThrows

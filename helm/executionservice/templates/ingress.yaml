@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: execution-ingress
+  annotations:
+    konghq.com/protocols: grpc
+    kubernetes.io/ingress.class: kong
+    kubernetes.io/tls-acme: "true"
+    cert-manager.io/cluster-issuer: nameOfClusterIssuer
+spec:
+  tls:
+    - secretName: app.singlesys.com
+      hosts:
+        - app.singlesys.com
+  rules:
+    - host: app.singlesys.com
+      http:
+        paths:
+          - path: /exec
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: execution-service-serv
+                port:
+                  number: 9099

@@ -23,11 +23,12 @@ public class PipelineReceiver extends PipelineQueryReceiverServiceGrpc.PipelineQ
 
     public void receive(com.ynero.ss.pipeline.dto.proto.PipelinesMessage.PipelineQuery request,
                         io.grpc.stub.StreamObserver<com.google.protobuf.Empty> responseObserver) {
+
+        log.info(request);
         var results = request.getPipelineDevicesList().stream().map(
                 result -> graphBuilder.build(result, request.getTenantId())
         )
                 .collect(Collectors.toList());
-
         sender.produce(results);
 
         Empty val = Empty.newBuilder().build();
