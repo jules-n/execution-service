@@ -89,6 +89,7 @@ public class GraphBuilder {
                         }
                 ).collect(Collectors.toList());
             }
+            log.info("inputPorts: {}", inputPorts);
             var outputPorts = currentNode.getOutputPortsName().stream().map(
                     portName -> {
                         var portBuild = PortBuildDTO.builder()
