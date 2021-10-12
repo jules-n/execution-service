@@ -14,11 +14,11 @@ import java.util.stream.Collectors;
 @Log4j2
 public class PipelineReceiver extends PipelineQueryReceiverServiceGrpc.PipelineQueryReceiverServiceImplBase {
 
-    @Setter(onMethod_ = {@Autowired})
+/*    @Setter(onMethod_ = {@Autowired})
     private GraphBuilder graphBuilder;
 
     @Setter(onMethod_ = {@Autowired})
-    private ResultsToSenderServiceSender sender;
+    private ResultsToSenderServiceSender sender;*/
 
 
     public void receive(com.ynero.ss.pipeline.dto.proto.PipelinesMessage.PipelineQuery request,

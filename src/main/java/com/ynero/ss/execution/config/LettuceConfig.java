@@ -14,10 +14,10 @@ import services.RedisWithPrefixOptionCacheServiceImpl;
 @Configuration
 public class LettuceConfig {
 
-    @Setter(onMethod_ = @Value("${spring.data.redis.host}"))
+    @Setter(onMethod_ = @Value("${spring.redis.host}"))
     private String hostName;
 
-    @Setter(onMethod_ = @Value("${spring.data.redis.port}"))
+    @Setter(onMethod_ = @Value("${spring.redis.port}"))
     private int port;
 
     @Bean
