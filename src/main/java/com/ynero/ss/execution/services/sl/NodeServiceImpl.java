@@ -5,6 +5,7 @@ import com.ynero.ss.execution.domain.dto.NodeDTO;
 import com.ynero.ss.execution.domain.dto.NodeGetDTO;
 import lombok.Setter;
 import lombok.SneakyThrows;
+import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.UUID;
 
 @Service
+@Log4j2
 public class NodeServiceImpl implements NodeService {
 
     @Setter(onMethod_ = {@Autowired})
@@ -46,6 +48,7 @@ public class NodeServiceImpl implements NodeService {
     public NodeGetDTO findById(String nodeId) {
         var id = UUID.fromString(nodeId);
         var node = cacheService.findByNodeId(id);
+        log.info("node: {}", node);
         if (!node.isEmpty()) {
             var nodeDTO = modelMapper.map(node.get(), NodeGetDTO.class);
             return nodeDTO;

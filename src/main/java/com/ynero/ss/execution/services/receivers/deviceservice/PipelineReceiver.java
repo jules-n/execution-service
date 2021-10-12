@@ -15,10 +15,10 @@ import java.util.stream.Stream;
 @Log4j2
 public class PipelineReceiver extends PipelineQueryReceiverServiceGrpc.PipelineQueryReceiverServiceImplBase {
 
-/*    @Setter(onMethod_ = {@Autowired})
+   @Setter(onMethod_ = {@Autowired})
     private GraphBuilder graphBuilder;
 
-    @Setter(onMethod_ = {@Autowired})
+/*    @Setter(onMethod_ = {@Autowired})
     private ResultsToSenderServiceSender sender;*/
 
 
@@ -26,21 +26,12 @@ public class PipelineReceiver extends PipelineQueryReceiverServiceGrpc.PipelineQ
                         io.grpc.stub.StreamObserver<com.google.protobuf.Empty> responseObserver) {
 
         log.info(request);
-        log.info(request.getPipelineDevicesList().size());
-
-        var res = request.getPipelineDevicesList().stream().map(
-                r -> {
-                    log.info("log: {}", r.getDevicesDataList());
-                    return r.getDevicesDataList();
-                }
-        ).collect(Collectors.toList());
-        log.info("res: {}", res);
-        log.info("res-1: {}", request.getPipelineDevicesList().get(0).getDevicesDataList());
-/*        var results = request.getPipelineDevicesList().stream().map(
+        var results = request.getPipelineDevicesList().stream().map(
                 result -> graphBuilder.build(result, request.getTenantId())
         )
                 .collect(Collectors.toList());
-        sender.produce(results);*/
+        log.info("results: {}", results);
+        /*sender.produce(results);*/
 
         Empty val = Empty.newBuilder().build();
         responseObserver.onNext(val);
