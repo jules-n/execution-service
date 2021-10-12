@@ -36,6 +36,7 @@ public class GraphBuilder {
     private GroovyShell groovyShell;
 
     public List<ResultDTO> build(PipelinesMessage.PipelineDevices pipelineDevices, String tenantId) {
+        log.info("1st log of pipelineDevice in graphBuilder: {}", pipelineDevices);
         var pipelineId = pipelineDevices.getPipelineId();
         log.info("pipelineId: {}", pipelineId);
         var pipelineDTO = pipelineService.find(pipelineId);
