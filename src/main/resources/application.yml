@@ -1,11 +1,12 @@
 spring:
+  redis:
+    host: ${REDIS_HOST:127.0.0.1}
+    port: ${REDIS_PORT:6379}
   data:
     mongodb:
       uri: ${MONGODB_URI:mongodb://localhost:27017}
       database: ${MONGODB_DATABASE:execution-service}
     redis:
-      host: ${REDIS_HOST:127.0.0.1}
-      port: ${REDIS_PORT:6379}
       timeout: ${REDIS_TIMEOUT:6000}
       expiration: ${REDIS_EXPIRATION:600}
   cloud:
