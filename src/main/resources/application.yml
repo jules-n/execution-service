@@ -1,14 +1,14 @@
 spring:
-#  redis:
-#    host: ${REDIS_HOST:127.0.0.1}
-#    port: ${REDIS_PORT:6379}
+  redis:
+    host: ${REDIS_HOST:127.0.0.1}
+    port: ${REDIS_PORT:6379}
   data:
     mongodb:
       uri: ${MONGODB_URI:mongodb://localhost:27017}
       database: ${MONGODB_DATABASE:execution-service}
-#    redis:
-#      timeout: ${REDIS_TIMEOUT:6000}
-#      expiration: ${REDIS_EXPIRATION:600}
+    redis:
+      timeout: ${REDIS_TIMEOUT:6000}
+      expiration: ${REDIS_EXPIRATION:600}
   cloud:
     stream:
       bindings:
@@ -47,6 +47,6 @@ management:
       enabled: true
   server:
     port: ${ACTUATOR_PORT:8058}
-#  health:
-#    redis:
-#      enabled: false
+  health:
+    redis:
+      enabled: false
