@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: execution-service-serv
   annotations:
-    konghq.com/protocol: grpc
+    cloud.google.com/app-protocols: '{"grpc":"HTTP2"}'
 spec:
   selector:
     app: execution-service-app

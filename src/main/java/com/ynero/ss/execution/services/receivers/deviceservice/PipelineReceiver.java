@@ -25,11 +25,12 @@ public class PipelineReceiver extends PipelineQueryReceiverServiceGrpc.PipelineQ
                         io.grpc.stub.StreamObserver<com.google.protobuf.Empty> responseObserver) {
 
         log.info(request);
-        var results = request.getPipelineDevicesList().stream().map(
+        log.info(request.getPipelineDevicesList().size());
+/*        var results = request.getPipelineDevicesList().stream().map(
                 result -> graphBuilder.build(result, request.getTenantId())
         )
                 .collect(Collectors.toList());
-        sender.produce(results);
+        sender.produce(results);*/
 
         Empty val = Empty.newBuilder().build();
         responseObserver.onNext(val);
