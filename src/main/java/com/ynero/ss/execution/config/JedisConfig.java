@@ -2,6 +2,7 @@ package com.ynero.ss.execution.config;
 
 import com.ynero.ss.execution.domain.Node;
 import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,6 +14,7 @@ import services.CacheService;
 import services.RedisWithPrefixOptionCacheServiceImpl;
 
 @Configuration
+@Log4j2
 public class JedisConfig {
 
     @Setter(onMethod_ = @Value("${spring.redis.host}"))
@@ -24,7 +26,12 @@ public class JedisConfig {
     @Bean
     public RedisTemplate<String, Node> redisTemplate() {
         RedisTemplate<String, Node> template = new RedisTemplate<>();
-        template.setConnectionFactory(jedisConnectionFactory());
+        var factory = jedisConnectionFactory();
+        var connection = factory.getConnection();
+        if (!connection.isSubscribed()) {
+            log.info("connection failed: {}", connection);
+        }
+        template.setConnectionFactory(factory);
         template.setHashKeySerializer(RedisSerializer.string());
         template.setHashValueSerializer(RedisSerializer.json());
         template.setKeySerializer(RedisSerializer.string());
