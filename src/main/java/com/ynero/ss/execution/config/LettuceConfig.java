@@ -15,6 +15,8 @@ import org.springframework.data.redis.serializer.RedisSerializer;
 import services.CacheService;
 import services.RedisWithPrefixOptionCacheServiceImpl;
 
+import java.util.concurrent.TimeUnit;
+
 @Configuration
 public class LettuceConfig {
 
@@ -42,6 +44,7 @@ public class LettuceConfig {
                 .setHostName(hostName);
         lettuceConnectionFactory.getStandaloneConfiguration()
                 .setPort(port);
+        lettuceConnectionFactory.setTimeout(6000);
         return lettuceConnectionFactory;
     }
 
