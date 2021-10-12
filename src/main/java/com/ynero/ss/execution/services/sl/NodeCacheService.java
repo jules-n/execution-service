@@ -23,8 +23,7 @@ public class NodeCacheService {
     @Setter(onMethod_ = {@Autowired})
     private CacheService<String, Node> cache;
 
-    @Setter(onMethod_ = {@Value("${spring.data.redis.expiration}")})
-    private int expirationTime;
+    private final int expirationTime = 1;
 
     public Optional<Node> findByNodeId(UUID nodeId) {
         var result = cache.get(nodeId.toString());
