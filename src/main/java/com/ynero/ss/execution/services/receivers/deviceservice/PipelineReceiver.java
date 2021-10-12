@@ -15,8 +15,11 @@ import java.util.stream.Stream;
 @Log4j2
 public class PipelineReceiver extends PipelineQueryReceiverServiceGrpc.PipelineQueryReceiverServiceImplBase {
 
-   @Setter(onMethod_ = {@Autowired})
-    private GraphBuilder graphBuilder;
+    private final GraphBuilder graphBuilder;
+
+    public PipelineReceiver(GraphBuilder graphBuilder) {
+        this.graphBuilder = graphBuilder;
+    }
 
 /*    @Setter(onMethod_ = {@Autowired})
     private ResultsToSenderServiceSender sender;*/
