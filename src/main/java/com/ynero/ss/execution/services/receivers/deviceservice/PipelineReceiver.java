@@ -16,13 +16,12 @@ import java.util.stream.Stream;
 public class PipelineReceiver extends PipelineQueryReceiverServiceGrpc.PipelineQueryReceiverServiceImplBase {
 
     private final GraphBuilder graphBuilder;
+    private final ResultsToSenderServiceSender sender;
 
-    public PipelineReceiver(GraphBuilder graphBuilder) {
+    public PipelineReceiver(GraphBuilder graphBuilder, ResultsToSenderServiceSender sender) {
         this.graphBuilder = graphBuilder;
+        this.sender = sender;
     }
-
-/*    @Setter(onMethod_ = {@Autowired})
-    private ResultsToSenderServiceSender sender;*/
 
 
     public void receive(com.ynero.ss.pipeline.dto.proto.PipelinesMessage.PipelineQuery request,
@@ -38,7 +37,7 @@ public class PipelineReceiver extends PipelineQueryReceiverServiceGrpc.PipelineQ
         )
                 .collect(Collectors.toList());
         log.info("results: {}", results);
-        /*sender.produce(results);*/
+        sender.produce(results);
 
         Empty val = Empty.newBuilder().build();
         responseObserver.onNext(val);
