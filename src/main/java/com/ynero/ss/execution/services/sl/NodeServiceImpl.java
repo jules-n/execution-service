@@ -3,7 +3,6 @@ package com.ynero.ss.execution.services.sl;
 import com.ynero.ss.execution.domain.Node;
 import com.ynero.ss.execution.domain.dto.NodeDTO;
 import com.ynero.ss.execution.domain.dto.NodeGetDTO;
-import com.ynero.ss.execution.persistence.node.NodeRepository;
 import lombok.Setter;
 import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
@@ -18,7 +17,7 @@ import java.util.UUID;
 public class NodeServiceImpl implements NodeService {
 
     @Setter(onMethod_ = {@Autowired})
-    private NodeRepository cacheService;
+        private NodeCacheService cacheService;
 
     @Setter(onMethod_ = {@Autowired})
     private ModelMapper modelMapper;

@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
-import java.lang.management.GarbageCollectorMXBean;
 import java.util.concurrent.TimeUnit;
 
 @Service
