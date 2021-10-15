@@ -8,8 +8,8 @@ deployment:
         cpu: 100m
         memory: 512Mi
       limits:
-        cpu: 1000m
-        memory: 4Gi
+        cpu: 2000m
+        memory: 6Gi
   replicaCount: 1
   port: 9098
   mongo:
