@@ -4,13 +4,40 @@ plugins {
     id 'com.coditory.integration-test' version '1.2.3'
     id 'java'
     id "com.google.protobuf" version "0.8.17"
-}
+    id "com.palantir.git-version" version "0.12.3"
+    id "com.jfrog.artifactory" version '4.24.20'
 
+}
 group = 'com.ynero.ss'
-version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 targetCompatibility = '11'
+version = tagVersion()
+def tagVersion(){
+    return ['sh', '-c', 'git describe --abbrev=0 --tags'].execute().text.trim()
+}
+repositories {
+    mavenLocal()
+    mavenCentral()
+    maven {
+        url "http://ss-dev-jenkins:8081/artifactory/ss-artifacts"
+        allowInsecureProtocol true
+        credentials {
+            username = System.getenv('SS_DEV_ARTIFACTORY_USERNAME')
+            password = System.getenv('SS_DEV_ARTIFACTORY_PASSWORD')
+        }
+    }
+}
 
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+springBoot {
+    buildInfo()
+}
+bootJar {
+    archiveFileName = "${project.name}.jar"
+}
 repositories {
     mavenCentral()
     mavenLocal()
@@ -52,21 +79,26 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
 
     //shared
-    implementation 'com.jules.ss:common-dtos:1.0.5'
-    implementation 'com.jules.ss:converters:1.0.1'
-    implementation 'com.jules.ss:cache-lib:0.0.1'
+    implementation 'com.ynero.ss:common-dtos:0.0.1'
+    implementation 'com.ynero.ss:converters:0.0.1'
+    implementation 'com.ynero.ss:healthchecks:0.0.1'
+    implementation 'com.ynero.ss:cache-lib:0.0.1'
 
     //pub-sub
     implementation platform('com.google.cloud:libraries-bom:20.9.0')
     implementation 'com.google.cloud:google-cloud-pubsub'
+    implementation 'com.google.cloud:spring-cloud-gcp-autoconfigure:2.0.0'
+    implementation 'com.google.cloud:spring-cloud-gcp-pubsub:2.0.3'
+    implementation group: 'org.springframework.cloud', name: 'spring-cloud-gcp-pubsub', version: '1.2.1.RELEASE'
+
 
     //gRPC
-    implementation "com.jules.ss:proto-files:${project['com.jules.ss.proto-files.version']}"
+    implementation "com.ynero.ss:proto-files:${project['com.ynero.ss.proto-files.version']}"
     implementation 'io.grpc:grpc-core:1.39.0'
     implementation 'io.grpc:grpc-protobuf:1.39.0'
     implementation 'io.grpc:grpc-stub:1.39.0'
     implementation 'io.grpc:grpc-netty:1.39.0'
-    protobuf "com.jules.ss:proto-files:${project['com.jules.ss.proto-files.version']}"
+    protobuf "com.ynero.ss:proto-files:${project['com.ynero.ss.proto-files.version']}"
 
     //lombok
     compileOnly 'org.projectlombok:lombok'

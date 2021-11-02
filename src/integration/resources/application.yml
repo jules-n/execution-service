@@ -1,12 +1,11 @@
 spring:
+  redis:
+    host: ${REDIS_HOST:127.0.0.1}
+    port: ${REDIS_PORT:6379}
   data:
     redis:
-      host: ${REDIS_HOST:127.0.0.1}
-      port: ${REDIS_PORT:6379}
       timeout: 6000
       expiration: 600
-      cache:
-        internalImplementation: false
   cloud:
     stream:
       bindings:
@@ -16,11 +15,12 @@ spring:
              drop: ${TOPIC_ON_DROP:device-pipeline-drop}
     gcp:
       project-id: ${PROJECT_ID:single-system}
-  producer:
-    results-sending-data-topic: ${RESULTS_SENDING_DATA:results-sending-data}
-    bootstrap-servers: ${KAFKA_PRODUCER_BOOTSTRAP_SERVER:localhost:9092}
-    key-serializer: org.apache.kafka.common.serialization.StringSerializer
-    value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+  kafka:
+    producer:
+      results-sending-data-topic: ${RESULTS_SENDING_DATA:results-sending-data}
+      bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVER:localhost:9092}
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
 
 grpc:
   server:

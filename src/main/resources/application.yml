@@ -1,15 +1,14 @@
 spring:
+  redis:
+    host: ${REDIS_HOST:127.0.0.1}
+    port: ${REDIS_PORT:6379}
   data:
     mongodb:
-      uri: ${URI:mongodb://localhost:27017}
-      database: ${DATABASE:execution-service}
+      uri: ${MONGODB_URI:mongodb://localhost:27017}
+      database: ${MONGODB_DATABASE:execution-service}
     redis:
-      host: ${REDIS_HOST:127.0.0.1}
-      port: ${REDIS_PORT:6379}
-      timeout: 6000
-      expiration: 600
-      cache:
-        internalImplementation: false
+      timeout: ${REDIS_TIMEOUT:6000}
+      expiration: ${REDIS_EXPIRATION:600}
   cloud:
     stream:
       bindings:
@@ -19,13 +18,14 @@ spring:
              drop: ${TOPIC_ON_DROP:device-pipeline-drop}
     gcp:
       project-id: ${PROJECT_ID:single-system}
-  producer:
-    results-sending-data-topic: ${RESULTS_SENDING_DATA:results-sending-data}
-    bootstrap-servers: ${KAFKA_PRODUCER_BOOTSTRAP_SERVER:localhost:9092}
-    key-serializer: org.apache.kafka.common.serialization.StringSerializer
-    value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+  kafka:
+    producer:
+      results-sending-data-topic: ${RESULTS_SENDING_DATA:results-sending-data}
+      bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVER:localhost:9092}
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
 server:
-  port: ${PORT:9098}
+  port: ${SERVER_PORT:9098}
 
 grpc:
   server:
@@ -34,3 +34,19 @@ grpc:
 mongock:
   change-logs-scan-package:
     - com.ynero.ss.execution.migration
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: ${ACTUATOR_EXPOSE_ENDPOINTS:*}
+  info:
+    git:
+      enabled: true
+  server:
+    port: ${ACTUATOR_PORT:8058}
+  health:
+    redis:
+      enabled: false

@@ -36,10 +36,14 @@ public class GraphBuilder {
     private GroovyShell groovyShell;
 
     public List<ResultDTO> build(PipelinesMessage.PipelineDevices pipelineDevices, String tenantId) {
+        log.info("1st log of pipelineDevice in graphBuilder: {}", pipelineDevices);
         var pipelineId = pipelineDevices.getPipelineId();
+        log.info("pipelineId: {}", pipelineId);
         var pipelineDTO = pipelineService.find(pipelineId);
+        log.info("pipelineDTO: {}", pipelineDTO);
 
         List<String> leaves = findLeaves(pipelineDTO.getEdges());
+        log.info("leaves: {}", leaves);
         List<Node> nodes = new ArrayList<>(); //list of nodes data from db
 
         //Search of node sequence
@@ -47,7 +51,9 @@ public class GraphBuilder {
                 edgeDTO -> {
                     var nodeIdi = edgeDTO.getNodeIdi();
                     var getDTO = nodeService.findById(nodeIdi);
+                    log.info("nodeDTO By Id: {}", getDTO);
                     var node = modelMapper.map(getDTO, Node.class);
+                    log.info("node: {}", node);
                     nodes.add(node);
                 }
         );
@@ -61,6 +67,7 @@ public class GraphBuilder {
                     if (!alreadyAddedNodeIds.contains(UUID.fromString(nodeIdj))) {
                         var getDTO = nodeService.findById(nodeIdj);
                         var node = modelMapper.map(getDTO, Node.class);
+                        log.info("node: {}", node);
                         nodes.add(node);
                     }
                 }
@@ -83,6 +90,7 @@ public class GraphBuilder {
                         }
                 ).collect(Collectors.toList());
             }
+            log.info("inputPorts: {}", inputPorts);
             var outputPorts = currentNode.getOutputPortsName().stream().map(
                     portName -> {
                         var portBuild = PortBuildDTO.builder()
@@ -133,6 +141,7 @@ public class GraphBuilder {
         );
 
         var roots = findRoots(pipelineDTO.getEdges());
+        log.info("roots: {}", roots);
         var results = new ArrayList<ResultDTO>();
         var copy = List.copyOf(nodeBuildDTOS);
         roots.forEach(
@@ -158,6 +167,7 @@ public class GraphBuilder {
                     );
                 }
         );
+        log.info("results: {}", results);
         return results;
     }
 
