@@ -1,5 +1,6 @@
 package com.ynero.ss.execution.builder;
 
+import com.ynero.ss.execution.IntegrationTestSetUp;
 import com.ynero.ss.execution.domain.dto.EdgeDTO;
 import com.ynero.ss.execution.domain.dto.NodeDTO;
 import com.ynero.ss.execution.domain.dto.PipelineDTO;
@@ -41,45 +42,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Testcontainers
 @DirtiesContext
 @Log4j2
-public class BuilderTest {
-
-    public static final String MONGO_VERSION = "4.4.4";
-    public static final String REDIS_VERSION = "5.0.7";
-    private static final long REDIS_MEMORY = 1024*1024*1024;
-
-    @Autowired
-    protected MongoOperations mongo;
-
-    @Container
-    protected static final MongoDBContainer MONGO_CONTAINER = new MongoDBContainer("mongo:" + MONGO_VERSION);
-    @Container
-    public static final GenericContainer REDIS = new GenericContainer<>(DockerImageName.parse("redis:" + REDIS_VERSION))
-            //.withClasspathResourceMapping("redis.conf", "./redis.conf", BindMode.READ_ONLY)
-            .withCreateContainerCmdModifier(cmd -> cmd.getHostConfig()
-                    .withMemory(REDIS_MEMORY)
-                    .withMemorySwap(0L)
-            )
-            .withExposedPorts(6379)
-            .withEnv("maxmemory", "256mb")
-            .withEnv("maxmemory-policy", "allkeys-lru");
-
-    @DynamicPropertySource
-    protected static void mongoProperties(DynamicPropertyRegistry reg) {
-        reg.add("spring.data.mongodb.uri", () -> {
-            return MONGO_CONTAINER.getReplicaSetUrl();
-        });
-    }
-    @DynamicPropertySource
-    protected static void redisProperties(DynamicPropertyRegistry reg) {
-        reg.add("spring.data.redis.host", () -> REDIS.getContainerIpAddress());
-    }
-
-    @AfterEach
-    protected void cleanupAllDataInDb() {
-        mongo.getCollectionNames().forEach(collection -> {
-            mongo.remove(new Query(), collection);
-        });
-    }
+public class BuilderTest extends IntegrationTestSetUp {
 
     private List<String> nodeIds = new ArrayList<>();
     private String pipelineId;
