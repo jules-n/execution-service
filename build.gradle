@@ -67,6 +67,7 @@ dependencies {
 
     //mongo
     implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb-reactive'
     implementation platform("com.github.cloudyrock.mongock:mongock-bom:${mongockVersion}")
     implementation 'com.github.cloudyrock.mongock:mongock-spring-v5'
     implementation 'com.github.cloudyrock.mongock:mongodb-springdata-v3-driver'
@@ -77,6 +78,9 @@ dependencies {
     //spring
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
+    //validator
+    implementation 'org.hibernate:hibernate-validator:6.0.10.Final'
 
     //shared
     implementation 'com.ynero.ss:common-dtos:0.0.1'
@@ -115,6 +119,7 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-params'
     testImplementation 'org.mockito:mockito-core'
     testImplementation 'org.assertj:assertj-core'
+    testImplementation 'io.projectreactor:reactor-test'
     integrationImplementation "org.testcontainers:junit-jupiter:1.15.3"
     integrationImplementation "org.testcontainers:mongodb:1.15.3"
 }
