@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("pipelines")
 public class PipelineController {
@@ -24,7 +26,7 @@ public class PipelineController {
     }
 
     @PostMapping
-    private ResponseEntity<String> create(@RequestBody PipelineDTO dto) {
+    private ResponseEntity<String> create(@RequestBody @Valid PipelineDTO dto) {
         var result = pipelineService.create(dto);
         return new ResponseEntity<String>(result, HttpStatus.OK);
     }
