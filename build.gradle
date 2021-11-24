@@ -87,6 +87,7 @@ dependencies {
     implementation 'com.ynero.ss:converters:0.0.1'
     implementation 'com.ynero.ss:healthchecks:0.0.1'
     implementation 'com.ynero.ss:cache-lib:0.0.1'
+    implementation 'com.ynero.ss:rest-exception-handling:0.0.1'
 
     //pub-sub
     implementation platform('com.google.cloud:libraries-bom:20.9.0')

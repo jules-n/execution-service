@@ -29,3 +29,8 @@ grpc:
 mongock:
   change-logs-scan-package:
     - com.ynero.ss.execution.migration
+rest:
+  exception:
+    handlers:
+      include:
+        internal-server-exception: true

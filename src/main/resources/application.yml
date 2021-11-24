@@ -50,3 +50,8 @@ management:
   health:
     redis:
       enabled: false
+rest:
+  exception:
+    handlers:
+      include:
+        internal-server-exception: true
