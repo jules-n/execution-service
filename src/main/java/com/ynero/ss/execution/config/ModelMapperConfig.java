@@ -75,6 +75,7 @@ public class ModelMapperConfig {
             var pipeline = Pipeline.builder()
                     .tenantId(dto.getTenantId())
                     .edges(edges)
+                    .username(UUID.fromString(dto.getUsername()))
                     .build();
 
             return pipeline;
@@ -100,6 +101,7 @@ public class ModelMapperConfig {
                     .pipelineId(pipeline.getPipelineId().toString())
                     .tenantId(pipeline.getTenantId())
                     .edges(edges)
+                    .username(pipeline.getUsername().toString())
                     .build();
             return dto;
         }

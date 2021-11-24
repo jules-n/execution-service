@@ -53,6 +53,7 @@ public class PipelineControllerTest extends IntegrationTestSetUp {
     private List<String> nodeIds = new ArrayList<>();
     private String pipelineId;
     private List<EdgeDTO> edges;
+    private UUID userId;
 
     private ObjectMapper mapper = new ObjectMapper();
     ObjectWriter objectWriter = mapper.writer().withDefaultPrettyPrinter();
@@ -69,6 +70,7 @@ public class PipelineControllerTest extends IntegrationTestSetUp {
     @BeforeEach
     void setUp() throws JsonProcessingException {
         mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
+        userId = UUID.randomUUID();
         var dtos = List.of(
                 NodeDTO.builder()
                         .script("def val = params[\"temperature-read\"]; Map<String, Object> result = new HashMap<>(); result.put(\"val\", val); return result;")

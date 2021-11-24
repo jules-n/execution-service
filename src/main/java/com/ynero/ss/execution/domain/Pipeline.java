@@ -18,6 +18,7 @@ public class Pipeline {
     public static final String COLLECTION_NAME = "pipelines";
     private UUID pipelineId;
     private String tenantId;
+    private UUID userId;
     private List<Edge> edges;
 
 }
