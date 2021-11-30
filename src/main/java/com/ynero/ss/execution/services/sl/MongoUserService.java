@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
@@ -61,5 +62,10 @@ public class MongoUserService implements UserService {
     @Override
     public boolean delete(String username) {
         return repository.delete(username);
+    }
+
+    @Override
+    public Optional<User> findByUsername(String username) {
+        return Optional.of(repository.findByUsername(username));
     }
 }

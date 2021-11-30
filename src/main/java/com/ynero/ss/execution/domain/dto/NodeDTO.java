@@ -15,6 +15,7 @@ public class NodeDTO {
     private String nodeId;
     private String script;
     private String description;
+    private String username;
     private List<String> inputPortsName;
     private List<String> outputPortsName;
 }

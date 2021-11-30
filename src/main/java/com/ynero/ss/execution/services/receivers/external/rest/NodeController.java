@@ -38,7 +38,7 @@ public class NodeController {
 
     @GetMapping
     private ResponseEntity<List<NodeGetDTO>> findAllUsersNodes(@RequestParam String username) {
-        var node = nodeService.getAllTenantsNodes(username);
+        var node = nodeService.getAllUsersNodes(username);
         return ResponseEntity.ok(node);
     }
 

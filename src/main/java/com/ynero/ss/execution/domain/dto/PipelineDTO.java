@@ -14,6 +14,7 @@ import java.util.List;
 @Builder
 public class PipelineDTO {
     private String tenantId;
+    private String username;
     @NodeInterconnection
     private List<EdgeDTO> edges;
 }

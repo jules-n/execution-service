@@ -26,6 +26,9 @@ public class PipelineServiceImpl implements PipelineService {
     private PipelineRepository pipelineRepository;
 
     @Setter(onMethod_ = {@Autowired})
+    private UserService userService;
+
+    @Setter(onMethod_ = {@Autowired})
     private ModelMapper modelMapper;
 
     @Setter(onMethod_ = {@Value("${spring.cloud.stream.bindings.output.destination.add}")})
@@ -82,6 +85,7 @@ public class PipelineServiceImpl implements PipelineService {
     public String create(PipelineDTO dto) {
         var pipeline = modelMapper.map(dto, Pipeline.class);
         pipeline.setPipelineId(UUID.randomUUID());
+        pipeline.setUserId(userService.findByUsername(dto.getUsername()).get().getUserId());
         pipeline = pipelineRepository.save(pipeline);
         return pipeline.getPipelineId().toString();
     }

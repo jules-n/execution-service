@@ -19,7 +19,10 @@ import java.util.stream.Collectors;
 public class NodeServiceImpl implements NodeService {
 
     @Setter(onMethod_ = {@Autowired})
-        private NodeCacheService cacheService;
+    private NodeCacheService cacheService;
+
+    @Setter(onMethod_ = {@Autowired})
+    private UserService userService;
 
     @Setter(onMethod_ = {@Autowired})
     private ModelMapper modelMapper;
@@ -58,6 +61,7 @@ public class NodeServiceImpl implements NodeService {
         if (node.getNodeId() == null) {
             node.setNodeId(UUID.randomUUID());
         }
+        node.setUserId(userService.findByUsername(dto.getUsername()).get().getUserId());
         node = cacheService.save(node);
         return node.getNodeId().toString();
     }
