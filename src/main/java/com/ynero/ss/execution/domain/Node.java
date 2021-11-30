@@ -20,6 +20,7 @@ public class Node {
     private String script;
     private String description;
     private byte[] compiledScript;
+    private UUID userId;
     private List<String> inputPortsName;
     private List<String> outputPortsName;
 }
