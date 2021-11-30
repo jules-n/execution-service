@@ -3,10 +3,7 @@ package com.ynero.ss.execution.services.sl;
 import com.ynero.ss.execution.domain.User;
 import com.ynero.ss.execution.domain.dto.UserDTO;
 import com.ynero.ss.execution.persistence.user.UserRepository;
-import lombok.Setter;
 import lombok.SneakyThrows;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -15,11 +12,13 @@ import java.util.Set;
 import java.util.UUID;
 
 @Service
-@Primary
-public class MongoUserService implements UserService {
+public class UserServiceImpl implements UserService {
 
-    @Setter(onMethod_ = {@Autowired})
-    private UserRepository repository;
+    private final UserRepository repository;
+
+    public UserServiceImpl(UserRepository repository) {
+        this.repository = repository;
+    }
 
     @Override
     public boolean save(UserDTO dto) {

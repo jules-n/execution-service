@@ -1,6 +1,6 @@
 package com.ynero.ss.execution.security;
 import com.ynero.ss.execution.domain.User;
-import com.ynero.ss.execution.persistence.user.UserRepository;
+import com.ynero.ss.execution.persistence.user.SecurityUserRepository;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 @Component
 public class UserDetailsService implements org.springframework.security.core.userdetails.UserDetailsService {
     @Setter(onMethod_ = {@Autowired})
-    private UserRepository repository;
+    private SecurityUserRepository repository;
 
     @Override
     public org.springframework.security.core.userdetails.UserDetails loadUserByUsername(String username)

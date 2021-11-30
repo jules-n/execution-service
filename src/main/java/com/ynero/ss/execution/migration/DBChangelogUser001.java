@@ -5,10 +5,7 @@ import com.github.cloudyrock.mongock.ChangeSet;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.IndexOptions;
-import com.ynero.ss.execution.domain.Node;
-import com.ynero.ss.execution.domain.Pipeline;
 import com.ynero.ss.execution.domain.User;
-import com.ynero.ss.execution.persistence.user.UserRepository;
 import org.bson.Document;
 
 import java.util.HashSet;

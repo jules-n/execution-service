@@ -15,7 +15,6 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom{
 
     @Setter(onMethod_ = {@Autowired})
     private MongoTemplate mongoTemplate;
-
     @Setter(onMethod_ = {@Autowired})
     PasswordEncoder encoder;
 

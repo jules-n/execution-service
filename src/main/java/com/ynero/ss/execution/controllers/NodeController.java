@@ -30,14 +30,14 @@ public class NodeController {
         return nodeWasDeleted ? ResponseEntity.ok().build() : ResponseEntity.badRequest().build();
     }
 
-    @GetMapping
-    private ResponseEntity<List<NodeGetDTO>> findAllTenantsNodes(@RequestParam String tenantId) {
+    @GetMapping("/{tenantsUrl}")
+    private ResponseEntity<List<NodeGetDTO>> findAllTenantsNodes(@PathVariable String tenantId) {
         var node = nodeService.getAllTenantsNodes(tenantId);
         return ResponseEntity.ok(node);
     }
 
-    @GetMapping
-    private ResponseEntity<List<NodeGetDTO>> findAllUsersNodes(@RequestParam String username) {
+    @GetMapping("/{username}")
+    private ResponseEntity<List<NodeGetDTO>> findAllUsersNodes(@PathVariable String username) {
         var node = nodeService.getAllUsersNodes(username);
         return ResponseEntity.ok(node);
     }

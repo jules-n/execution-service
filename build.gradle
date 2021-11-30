@@ -27,31 +27,17 @@ repositories {
         }
     }
 }
-
-repositories {
-    mavenCentral()
-    mavenLocal()
-}
 springBoot {
     buildInfo()
 }
 bootJar {
     archiveFileName = "${project.name}.jar"
 }
-repositories {
-    mavenCentral()
-    mavenLocal()
-}
 
 configurations {
     compileOnly {
         extendsFrom annotationProcessor
     }
-}
-
-repositories {
-    mavenCentral()
-    mavenLocal()
 }
 
 dependencies {

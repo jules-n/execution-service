@@ -3,7 +3,6 @@ package com.ynero.ss.execution.controllers;
 import com.ynero.ss.execution.domain.dto.UserDTO;
 import com.ynero.ss.execution.services.sl.UserService;
 import lombok.Setter;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -24,7 +23,7 @@ public class UserController {
         return result ? ResponseEntity.ok().build() : ResponseEntity.badRequest().build();
     }
 
-    @PutMapping
+    @PutMapping("/admins")
     private ResponseEntity addRights(@RequestParam String username, @RequestParam Set<String> rights) {
         var result = userService.addRights(username, rights);
         return result ? ResponseEntity.ok().build() : ResponseEntity.badRequest().build();
