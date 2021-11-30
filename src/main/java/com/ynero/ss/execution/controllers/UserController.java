@@ -1,4 +1,4 @@
-package com.ynero.ss.execution.services.receivers.external.rest;
+package com.ynero.ss.execution.controllers;
 
 import com.ynero.ss.execution.domain.dto.UserDTO;
 import com.ynero.ss.execution.services.sl.UserService;

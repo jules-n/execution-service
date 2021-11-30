@@ -1,4 +1,4 @@
-package com.ynero.ss.execution.services.receivers.external.gRPC;
+package com.ynero.ss.execution.services.receivers.external;
 
 import com.ynero.ss.execution.domain.dto.NodeDTO;
 import com.ynero.ss.execution.services.sl.NodeService;

@@ -1,4 +1,4 @@
-package com.ynero.ss.execution.services.receivers.external.rest;
+package com.ynero.ss.execution.controllers;
 
 import com.ynero.ss.execution.domain.dto.PipelineDTO;
 import com.ynero.ss.execution.domain.dto.PipelineGetDTO;

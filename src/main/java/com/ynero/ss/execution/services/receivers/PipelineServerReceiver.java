@@ -2,8 +2,8 @@ package com.ynero.ss.execution.services.receivers;
 
 import com.ynero.ss.execution.builder.GraphBuilder;
 import com.ynero.ss.execution.services.receivers.deviceservice.PipelineReceiver;
-import com.ynero.ss.execution.services.receivers.external.gRPC.NodeCRUDReceiver;
-import com.ynero.ss.execution.services.receivers.external.gRPC.PipelineCRUDReceiver;
+import com.ynero.ss.execution.services.receivers.external.NodeCRUDReceiver;
+import com.ynero.ss.execution.services.receivers.external.PipelineCRUDReceiver;
 import com.ynero.ss.execution.services.senders.ResultsToSenderServiceSender;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
