@@ -1,6 +1,7 @@
 package com.ynero.ss.execution.services.sl;
 
 import com.ynero.ss.execution.domain.Node;
+import com.ynero.ss.execution.domain.dto.NodeGetDTO;
 import com.ynero.ss.execution.persistence.node.NodeRepository;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import services.CacheService;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -57,5 +59,13 @@ public class NodeCacheService {
         nodeRepository.save(node);
         cache.save(node.getNodeId().toString(), node, expirationTime, TimeUnit.SECONDS);
         return node;
+    }
+
+    public List<Node> getAllUsersNodes(String username) {
+        return nodeRepository.getAllUsersNodes(username);
+    }
+
+    public List<Node> getAllTenantsNodes(String tenantId) {
+        return nodeRepository.getAllTenantsNodes(tenantId);
     }
 }

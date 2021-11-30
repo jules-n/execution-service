@@ -10,7 +10,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @Log4j2
@@ -21,6 +23,22 @@ public class NodeServiceImpl implements NodeService {
 
     @Setter(onMethod_ = {@Autowired})
     private ModelMapper modelMapper;
+
+    @Override
+    public List<NodeGetDTO> getAllUsersNodes(String username) {
+        var dtoList = cacheService.getAllUsersNodes(username)
+                .stream().map( node -> modelMapper.map(node, NodeGetDTO.class))
+                .collect(Collectors.toList());
+        return dtoList;
+    }
+
+    @Override
+    public List<NodeGetDTO> getAllTenantsNodes(String tenantId) {
+        var dtoList = cacheService.getAllTenantsNodes(tenantId)
+                .stream().map( node -> modelMapper.map(node, NodeGetDTO.class))
+                .collect(Collectors.toList());
+        return dtoList;
+    }
 
     public boolean update(NodeDTO dto, String nodeId) {
         var node = modelMapper.map(dto, Node.class);

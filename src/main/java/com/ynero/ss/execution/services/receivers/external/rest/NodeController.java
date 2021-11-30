@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("nodes")
 public class NodeController {
@@ -29,8 +31,14 @@ public class NodeController {
     }
 
     @GetMapping
-    private ResponseEntity<NodeGetDTO> find(@RequestParam String nodeId) {
-        var node = nodeService.findById(nodeId);
+    private ResponseEntity<List<NodeGetDTO>> findAllTenantsNodes(@RequestParam String tenantId) {
+        var node = nodeService.getAllTenantsNodes(tenantId);
+        return ResponseEntity.ok(node);
+    }
+
+    @GetMapping
+    private ResponseEntity<List<NodeGetDTO>> findAllUsersNodes(@RequestParam String username) {
+        var node = nodeService.getAllTenantsNodes(username);
         return ResponseEntity.ok(node);
     }
 
