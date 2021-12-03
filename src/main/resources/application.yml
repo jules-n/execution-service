@@ -30,7 +30,7 @@ server:
 grpc:
   server:
     port: ${GRPC_SERVER_PORT:9099}
-
+debug: true
 mongock:
   change-logs-scan-package:
     - com.ynero.ss.execution.migration

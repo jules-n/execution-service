@@ -34,7 +34,7 @@ public class NodeCRUDReceiver extends NodeCRUDServiceGrpc.NodeCRUDServiceImplBas
     @Override
     public void delete(com.ynero.ss.pipeline.dto.proto.PipelineCrud.NodeId request,
                        io.grpc.stub.StreamObserver<com.ynero.ss.pipeline.dto.proto.PipelineCrud.Response> responseObserver) {
-        var nodeWasDeleted = nodeService.delete(request.getNodeId());
+        var nodeWasDeleted = nodeService.delete(request.getNodeId()/*, authentication*/);
         var response = PipelineCrud.Response.newBuilder();
         if (nodeWasDeleted) {
             response.setStatus(200);

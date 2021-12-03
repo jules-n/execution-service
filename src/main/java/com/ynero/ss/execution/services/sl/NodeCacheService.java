@@ -16,7 +16,6 @@ import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 @Service
-@Primary
 public class NodeCacheService {
 
     @Setter(onMethod_ = {@Autowired})

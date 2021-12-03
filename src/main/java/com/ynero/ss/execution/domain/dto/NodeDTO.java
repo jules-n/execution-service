@@ -1,5 +1,6 @@
 package com.ynero.ss.execution.domain.dto;
 
+import com.mongodb.lang.Nullable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,7 +16,10 @@ public class NodeDTO {
     private String nodeId;
     private String script;
     private String description;
+    @Nullable
     private String username;
+    @Nullable
+    private String tenantId;
     private List<String> inputPortsName;
     private List<String> outputPortsName;
 }

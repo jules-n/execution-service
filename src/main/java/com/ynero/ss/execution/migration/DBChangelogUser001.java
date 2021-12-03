@@ -4,9 +4,16 @@ import com.github.cloudyrock.mongock.ChangeLog;
 import com.github.cloudyrock.mongock.ChangeSet;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.IndexOptions;
+import com.mongodb.client.model.Updates;
 import com.ynero.ss.execution.domain.User;
+import lombok.Setter;
 import org.bson.Document;
+import org.bson.conversions.Bson;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -45,5 +52,21 @@ public class DBChangelogUser001 {
     public void insertIndex(MongoDatabase mongo) {
         var userCollection = mongo.getCollection(User.COLLECTION_NAME);
         userCollection.createIndex(new BasicDBObject("username", 1), new IndexOptions().unique(true));
+    }
+
+    @ChangeSet(order = "003", id = "encrypting existing passwords", author = "ynero")
+    public void encryptingPasswords(MongoDatabase mongo) {
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        var userCollection = mongo.getCollection(User.COLLECTION_NAME);
+        var users = userCollection.find();
+        users.forEach(
+                user -> {
+                    var password = user.get("password");
+                    password = passwordEncoder.encode(password.toString());
+                    var update = Updates.set("password", password);
+                    var filter = Filters.eq("userId", user.get("userId"));
+                    userCollection.updateOne(filter, update);
+                }
+        );
     }
 }

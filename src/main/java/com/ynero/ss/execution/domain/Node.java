@@ -21,6 +21,7 @@ public class Node {
     private String description;
     private byte[] compiledScript;
     private UUID userId;
+    private String tenantId;
     private List<String> inputPortsName;
     private List<String> outputPortsName;
 }

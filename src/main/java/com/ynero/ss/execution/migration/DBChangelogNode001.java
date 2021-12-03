@@ -34,4 +34,10 @@ public class DBChangelogNode001 {
         UUID userId = (UUID) user.first().get("userId");
         nodeCollection.updateMany(new Document(), Updates.set("userId", userId));
     }
+
+    @ChangeSet(order = "003", id = "updating with default tenant", author = "ynero")
+    public void setDefaultTenant(MongoDatabase mongo) {
+        var nodeCollection = mongo.getCollection(Node.COLLECTION_NAME);
+        nodeCollection.updateMany(new Document(), Updates.set("tenantId", "single-system"));
+    }
 }

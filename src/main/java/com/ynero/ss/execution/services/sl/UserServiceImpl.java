@@ -4,6 +4,7 @@ import com.ynero.ss.execution.domain.User;
 import com.ynero.ss.execution.domain.dto.UserDTO;
 import com.ynero.ss.execution.persistence.user.UserRepository;
 import lombok.SneakyThrows;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -15,9 +16,11 @@ import java.util.UUID;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository repository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserRepository repository) {
+    public UserServiceImpl(UserRepository repository, PasswordEncoder passwordEncoder) {
         this.repository = repository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -34,18 +37,18 @@ public class UserServiceImpl implements UserService {
         var user = User.builder()
                 .userId(UUID.randomUUID())
                 .tenantId(dto.getTenantId())
-                .password(dto.getPassword())
+                .password(passwordEncoder.encode(dto.getPassword()))
                 .username(dto.getUsername())
                 .roles(roles)
                 .build();
         var result = repository.save(user);
-        return result == null;
+        return result != null;
     }
 
     @Override
     @SneakyThrows
     public boolean addRights(String username, Set<String> rights) {
-        if (username == null || rights.isEmpty()) throw new Exception("Empty params");
+        if (username.isEmpty() || rights.isEmpty()) throw new Exception("U cannot add no rights to unexisting user");
         return repository.addRights(username, rights);
     }
 
@@ -54,7 +57,7 @@ public class UserServiceImpl implements UserService {
     public boolean update(UserDTO dto) {
         var user = repository.findByUsername(dto.getUsername());
         if (user == null) throw new Exception("U cannot change your username");
-        user.setPassword(dto.getPassword());
+        user.setPassword(passwordEncoder.encode(dto.getPassword()));
         return repository.update(user);
     }
 
