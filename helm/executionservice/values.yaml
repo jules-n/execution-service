@@ -13,7 +13,10 @@ deployment:
   replicaCount: 1
   port: 9098
   mongo:
-    uri: mongodb://mongo-0.mongo:27017/
+    username: root
+    host: my-release-mongodb.default.svc.cluster.local
+    port: 27017
+    password: ${sm://mongo-admin-password}
     database: execution-service
   redis:
     host: 10.133.169.11

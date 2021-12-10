@@ -18,7 +18,6 @@ public class NodeDTO {
     private String description;
     @Nullable
     private String username;
-    @Nullable
     private String tenantId;
     private List<String> inputPortsName;
     private List<String> outputPortsName;

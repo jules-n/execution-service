@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class DTOToJSONConverterConfig {
     @Bean
-    DTOToMessageJSONConverter getDTOToMessageJSONConverter(){
-        return new DTOToMessageJSONConverter(new ObjectMapper());
+    DTOToMessageJSONConverter getDTOToMessageJSONConverter(ObjectMapper objectMapper){
+        return new DTOToMessageJSONConverter(objectMapper);
     }
 }

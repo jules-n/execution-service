@@ -2,11 +2,13 @@ package com.ynero.ss.execution.controllers;
 
 import com.ynero.ss.execution.domain.dto.NodeDTO;
 import com.ynero.ss.execution.domain.dto.NodeGetDTO;
-import com.ynero.ss.execution.services.sl.NodeServiceProxy;
+import com.ynero.ss.execution.services.sl.NodeService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,34 +18,50 @@ import java.util.List;
 @Log4j2
 public class NodeController {
 
-    private final NodeServiceProxy nodeService;
+    private final NodeService nodeService;
 
-    public NodeController(NodeServiceProxy nodeService) {
+    public NodeController(NodeService nodeService) {
         this.nodeService = nodeService;
     }
 
     @PostMapping
-    private ResponseEntity<String> create(@RequestBody NodeDTO dto, Authentication authentication) {
-        var nodeId = nodeService.save(dto, authentication);
+    @PreAuthorize("@authService.mayCreateNodes(authentication, #dto.tenantId)")
+    public ResponseEntity<String> create(@RequestBody NodeDTO dto, Authentication authentication) {
+        if (dto.getUsername() == null) {
+            var username = ((UserDetails)authentication.getPrincipal()).getUsername();
+            dto.setUsername(username);
+        }
+        var nodeId = nodeService.save(dto);
         return new ResponseEntity<String>(nodeId, HttpStatus.OK);
     }
 
     @DeleteMapping
-    private ResponseEntity delete(@RequestParam String nodeId, Authentication authentication) {
-        var nodeWasDeleted = nodeService.delete(nodeId, authentication);
+    @PreAuthorize("@authService.mayDeleteNodes(authentication, #nodeId)")
+    public ResponseEntity delete(@RequestParam String nodeId, Authentication authentication) {
+        var nodeWasDeleted = nodeService.delete(nodeId);
         return nodeWasDeleted ? ResponseEntity.ok().build() : ResponseEntity.badRequest().build();
     }
 
 
     @GetMapping("/{tenantId}")
-    private ResponseEntity<List<NodeGetDTO>> findAllTenantsNodes(@PathVariable("tenantId") String tenantId) {
+    @PreAuthorize("@authService.mayGetTenantsNodes(authentication, #tenantId)")
+    public ResponseEntity<List<NodeGetDTO>> findAllTenantsNodes(@PathVariable("tenantId") String tenantId) {
         var node = nodeService.getAllTenantsNodes(tenantId);
         return ResponseEntity.ok(node);
     }
 
+    @GetMapping("/my")
+    @PreAuthorize("@authService.mayGetNodes(authentication)")
+    public ResponseEntity<List<NodeGetDTO>> findAllUsersNodes(Authentication authentication) {
+        var username = ((UserDetails)authentication.getPrincipal()).getUsername();
+        var node = nodeService.getAllUsersNodes(username);
+        return ResponseEntity.ok(node);
+    }
+
     @PutMapping
-    private ResponseEntity update(@RequestBody NodeDTO dto, @RequestParam String nodeId) {
-        /*var result = nodeService.update(dto, nodeId);*/
-        return /*result*/ true ? ResponseEntity.ok().build() : ResponseEntity.badRequest().build();
+    @PreAuthorize("@authService.mayUpdateNodes(authentication, #nodeId)")
+    public ResponseEntity update(@RequestBody NodeDTO dto, @RequestParam String nodeId) {
+        var result = nodeService.update(dto, nodeId);
+        return result ? ResponseEntity.ok().build() : ResponseEntity.badRequest().build();
     }
 }

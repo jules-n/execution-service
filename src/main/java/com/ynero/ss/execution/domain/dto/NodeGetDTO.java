@@ -15,6 +15,7 @@ public class NodeGetDTO {
     private String nodeId;
     private String script;
     private String description;
+    private String tenantId;
     private List<String> inputPortsName;
     private List<String> outputPortsName;
 }

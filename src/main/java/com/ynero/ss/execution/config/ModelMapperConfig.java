@@ -38,6 +38,7 @@ public class ModelMapperConfig {
                     .description(dto.getDescription())
                     .inputPortsName(dto.getInputPortsName())
                     .outputPortsName(dto.getOutputPortsName())
+                    .tenantId(dto.getTenantId())
                     .build();
             return node;
         }
@@ -51,6 +52,7 @@ public class ModelMapperConfig {
                     .script(node.getScript())
                     .description(node.getDescription())
                     .inputPortsName(node.getInputPortsName())
+                    .tenantId(node.getTenantId())
                     .outputPortsName(node.getOutputPortsName())
                     .build();
             return dto;

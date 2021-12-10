@@ -1,6 +1,7 @@
 package com.ynero.ss.execution.domain.dto;
 
 import com.ynero.ss.execution.validators.NodeInterconnection;
+import com.ynero.ss.execution.validators.TenantsAccordance;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,6 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@TenantsAccordance
 public class PipelineDTO {
     private String tenantId;
     private String username;

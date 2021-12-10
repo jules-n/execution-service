@@ -4,7 +4,10 @@ spring:
     port: ${REDIS_PORT:6379}
   data:
     mongodb:
-      uri: ${MONGODB_URI:mongodb://localhost:27017}
+      username: ${MONGODB_USERNAME:admin}
+      password: ${MONGODB_PASSWORD:admin}
+      host: ${MONGODB_HOST:localhost}
+      port: ${MONGODB_PORT:27017}
       database: ${MONGODB_DATABASE:execution-service}
     redis:
       timeout: ${REDIS_TIMEOUT:6000}
@@ -30,7 +33,6 @@ server:
 grpc:
   server:
     port: ${GRPC_SERVER_PORT:9099}
-debug: true
 mongock:
   change-logs-scan-package:
     - com.ynero.ss.execution.migration

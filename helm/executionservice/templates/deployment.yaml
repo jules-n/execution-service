@@ -45,8 +45,16 @@ spec:
           env:
             - name: GOOGLE_APPLICATION_CREDENTIALS
               value: /var/secrets/google/key.json
-            - name: MONGODB_URI
-              value: "{{ .Values.deployment.mongo.uri}}"
+            - name: MONGODB_USERNAME
+            value: "{{ .Values.deployment.mongo.username}}"
+            - name: MONGODB_PASSWORD
+              value: "{{ .Values.deployment.mongo.password}}"
+            - name: MONGODB_HOST
+              value: "{{ .Values.deployment.mongo.host}}"
+            - name: MONGODB_PORT
+              value: "{{ .Values.deployment.mongo.port}}"
+            - name: MONGODB_DATABASE
+              value: "{{ .Values.deployment.mongo.database}}"
             - name: MONGODB_DATABASE
               value: "{{ .Values.deployment.mongo.database}}"
             - name: REDIS_HOST
